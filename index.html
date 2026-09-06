@@ -96,7 +96,7 @@
         .week-tabs {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
@@ -104,10 +104,10 @@
             background: #1e293b;
             color: #94a3b8;
             border: 2px solid #334155;
-            padding: 10px 24px;
+            padding: 9px 20px;
             border-radius: 50px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.2s;
@@ -258,82 +258,124 @@
 
         <!-- Week Switcher Tabs -->
         <div class="week-tabs">
-            <button class="tab-btn active" onclick="switchWeek('w2', this)">🔥 الأسبوع الحالي: الدرس الثاني</button>
-            <button class="tab-btn" onclick="switchWeek('w1', this)">📚 الأسبوع السابق: الدرس الأول</button>
+            <button class="tab-btn active" onclick="switchWeek('w3', this)">🔥 الأسبوع الحالي: الدرس الثالث</button>
+            <button class="tab-btn" onclick="switchWeek('w2', this)">📚 الأسبوع الثاني: الدرس الثاني</button>
+            <button class="tab-btn" onclick="switchWeek('w1', this)">📚 الأسبوع الأول: الدرس الأول</button>
         </div>
 
-        <!-- TAB 2: CURRENT WEEK (LESSON 2) -->
-        <div class="tab-pane active" id="pane-w2">
+        <!-- TAB 3: CURRENT WEEK (LESSON 3) -->
+        <div class="tab-pane active" id="pane-w3">
             <div class="cards-grid">
-                <!-- 1st Intermediate - Lesson 2 -->
-                <a href="grade1_l2.html" class="lesson-card card-1">
+                <!-- 1st Intermediate - Lesson 3 -->
+                <a href="grade1_l3.html" class="lesson-card card-1">
                     <div>
                         <div class="card-top">
                             <span class="grade-tag tag-1">الصف الأول متوسط</span>
-                            <span class="card-icon">🖥️</span>
+                            <span class="card-icon">🖱️</span>
                         </div>
-                        <h2 class="lesson-name">درس نظام التشغيل</h2>
-                        <p class="lesson-desc">اكتشف وظائف نظام التشغيل (إدارة الذاكرة والمعالج)، محاكي سطح المكتب، تنظيم شجرة المجلدات، وتحدي فصل الـ USB بأمان.</p>
+                        <h2 class="lesson-name">إعدادات نظام التشغيل الأساسية</h2>
+                        <p class="lesson-desc">تخصيص إعدادات الفأرة وسرعة المؤشر، محاكي مدير المهام Task Manager لإنهاء البرامج المعلقة، وترتيب النوافذ المتعددة وإلغاء تثبيت التطبيقات.</p>
                         <div class="features-list">
-                            <span class="feature-pill">🖥️ محاكي سطح المكتب</span>
-                            <span class="feature-pill">📂 شجرة المجلدات</span>
-                            <span class="feature-pill">⚡ الإزالة الآمنة</span>
+                            <span class="feature-pill">🖱️ محاكي الفأرة</span>
+                            <span class="feature-pill">⚡ مدير المهام</span>
+                            <span class="feature-pill">📂 تعدد المهام</span>
                             <span class="feature-pill">📝 اختبار 8 أسئلة</span>
                         </div>
                     </div>
                     <div class="card-btn btn-1">
-                        <span>دخول الدرس الثاني الآن</span>
+                        <span>دخول الدرس الثالث الآن</span>
                         <i class="fas fa-arrow-left"></i>
                     </div>
                 </a>
 
-                <!-- 2nd Intermediate - Lesson 2 -->
-                <a href="grade2_l2.html" class="lesson-card card-2">
+                <!-- 2nd Intermediate - Lesson 3 -->
+                <a href="grade2_l3.html" class="lesson-card card-2">
                     <div>
                         <div class="card-top">
                             <span class="grade-tag tag-2">الصف الثاني متوسط</span>
-                            <span class="card-icon">🎬</span>
+                            <span class="card-icon">✨</span>
                         </div>
-                        <h2 class="lesson-name">درس إنشاء فيلم</h2>
-                        <p class="lesson-desc">تعلم كتابة السيناريو وجدول التصوير (الديكوباج)، أنواع اللقطات وزوايا الكاميرا، مع محاكي برنامج المونتاج Shotcut لترتيب اللقطات.</p>
+                        <h2 class="lesson-name">التأثيرات البصرية في الفيديو</h2>
+                        <p class="lesson-desc">إدراج النصوص وتنسيقها على مقاطع الفيديو، محاكي الإطارات المفتاحية (Keyframes)، وتطبيق الانتقالات السينمائية ومرشحات الصوت الاحترافية.</p>
                         <div class="features-list">
-                            <span class="feature-pill">📜 جدول التصوير (Découpage)</span>
-                            <span class="feature-pill">🎥 زوايا ولقطات الكاميرا</span>
-                            <span class="feature-pill">🎞️ محاكي برنامج Shotcut</span>
+                            <span class="feature-pill">🔤 محاكي النصوص</span>
+                            <span class="feature-pill">💎 الإطارات المفتاحية</span>
+                            <span class="feature-pill">✨ الانتقالات السينمائية</span>
                             <span class="feature-pill">📝 اختبار ختامي</span>
                         </div>
                     </div>
                     <div class="card-btn btn-2">
-                        <span>دخول الدرس الثاني الآن</span>
+                        <span>دخول الدرس الثالث الآن</span>
                         <i class="fas fa-arrow-left"></i>
                     </div>
                 </a>
 
-                <!-- 3rd Intermediate - Lesson 2 -->
-                <a href="grade3_l2.html" class="lesson-card card-3">
+                <!-- 3rd Intermediate - Lesson 3 -->
+                <a href="grade3_l3.html" class="lesson-card card-3">
                     <div>
                         <div class="card-top">
                             <span class="grade-tag tag-3">الصف الثالث متوسط</span>
                             <span class="card-icon">🛡️</span>
                         </div>
-                        <h2 class="lesson-name">حماية الحاسب الشخصي</h2>
-                        <p class="lesson-desc">تعرف على أخطر البرمجيات الضارة (الفدية، أحصنة طروادة)، جدار الحماية، ومختبر فحص الفيروسات وعزل التهديدات السيبرانية.</p>
+                        <h2 class="lesson-name">المواطنة الرقمية والتصفح الآمن</h2>
+                        <p class="lesson-desc">تحدي فرز البيانات الشخصية الحساسة، محاكي التصدي للاحتيال والتنمر وحظر الحسابات، استكشاف البصمة الرقمية ومشروع ختام وحدة الأمن السيبراني.</p>
                         <div class="features-list">
-                            <span class="feature-pill">🦠 أنواع البرمجيات الضارة</span>
-                            <span class="feature-pill">🧱 جدار الحماية Firewall</span>
-                            <span class="feature-pill">⚡ محاكي فحص الفيروسات</span>
+                            <span class="feature-pill">🛡️ فرز البيانات الحساسة</span>
+                            <span class="feature-pill">📱 أمان شبكات التواصل</span>
+                            <span class="feature-pill">👣 البصمة الرقمية</span>
                             <span class="feature-pill">📝 اختبار 8 أسئلة</span>
                         </div>
                     </div>
                     <div class="card-btn btn-3">
-                        <span>دخول الدرس الثاني الآن</span>
+                        <span>دخول الدرس الثالث الآن</span>
                         <i class="fas fa-arrow-left"></i>
                     </div>
                 </a>
             </div>
         </div>
 
-        <!-- TAB 1: PREVIOUS WEEK (LESSON 1) -->
+        <!-- TAB 2: WEEK 2 -->
+        <div class="tab-pane" id="pane-w2">
+            <div class="cards-grid">
+                <a href="grade1_l2.html" class="lesson-card card-1">
+                    <div>
+                        <div class="card-top">
+                            <span class="grade-tag tag-1">الصف الأول متوسط</span>
+                            <span class="card-icon">🖥️</span>
+                        </div>
+                        <h2 class="lesson-name">الدرس 2: نظام التشغيل</h2>
+                        <p class="lesson-desc">وظائف نظام التشغيل ومحاكي سطح المكتب وتنظيم المجلدات والإزالة الآمنة للـ USB.</p>
+                    </div>
+                    <div class="card-btn btn-1">دخول الدرس الثاني ←</div>
+                </a>
+
+                <a href="grade2_l2.html" class="lesson-card card-2">
+                    <div>
+                        <div class="card-top">
+                            <span class="grade-tag tag-2">الصف الثاني متوسط</span>
+                            <span class="card-icon">🎬</span>
+                        </div>
+                        <h2 class="lesson-name">الدرس 2: إنشاء فيلم</h2>
+                        <p class="lesson-desc">مراحل التخطيط وجدول الديكوباج وزوايا الكاميرا ومحاكي Shotcut.</p>
+                    </div>
+                    <div class="card-btn btn-2">دخول الدرس الثاني ←</div>
+                </a>
+
+                <a href="grade3_l2.html" class="lesson-card card-3">
+                    <div>
+                        <div class="card-top">
+                            <span class="grade-tag tag-3">الصف الثالث متوسط</span>
+                            <span class="card-icon">🛡️</span>
+                        </div>
+                        <h2 class="lesson-name">الدرس 2: حماية الحاسب الشخصي</h2>
+                        <p class="lesson-desc">أنواع البرمجيات الضارة وجدار الحماية وفحص وعزل الفيروسات.</p>
+                    </div>
+                    <div class="card-btn btn-3">دخول الدرس الثاني ←</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- TAB 1: WEEK 1 -->
         <div class="tab-pane" id="pane-w1">
             <div class="cards-grid">
                 <a href="grade1.html" class="lesson-card card-1">
@@ -343,7 +385,7 @@
                             <span class="card-icon">💻</span>
                         </div>
                         <h2 class="lesson-name">الدرس 1: أجهزة الحاسب</h2>
-                        <p class="lesson-desc">أنواع الحواسيب، أجزاء اللوحة الأم، وحدات الإدخال والإخراج، والتخزين مع لعبة السحب والاختبار.</p>
+                        <p class="lesson-desc">أنواع الحواسيب، أجزاء اللوحة الأم، وحدات الإدخال والإخراج، والتخزين.</p>
                     </div>
                     <div class="card-btn btn-1">دخول الدرس الأول ←</div>
                 </a>
@@ -355,7 +397,7 @@
                             <span class="card-icon">🎞️</span>
                         </div>
                         <h2 class="lesson-name">الدرس 1: الوسائط المتعددة</h2>
-                        <p class="lesson-desc">امتدادات الصور والصوت والفيديو مع استوديو المونتاج المصغر.</p>
+                        <p class="lesson-desc">امتدادات الصور والصوت والفيديو واستوديو المونتاج المصغر.</p>
                     </div>
                     <div class="card-btn btn-2">دخول الدرس الأول ←</div>
                 </a>
