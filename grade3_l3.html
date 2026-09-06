@@ -104,7 +104,6 @@
         <button class="nav-btn" onclick="goTo('social')">📱 أمان شبكات التواصل</button>
         <button class="nav-btn" onclick="goTo('footprint')">👣 البصمة الرقمية</button>
         <button class="nav-btn" onclick="goTo('project')">🏆 مشروع الوحدة</button>
-        <button class="nav-btn" style="background:#f1f5f9; color:#0f172a;" onclick="openSummaryModal()">📄 ملخص الدرس الذكي 🖨️</button>
         <button class="nav-btn" onclick="goTo('quiz')">📝 الاختبار</button>
     </div>
 
@@ -252,19 +251,6 @@
             <p class="section-desc">اختبر وعيك السيبراني والمواطنة الرقمية! اختر الإجابة الصحيحة لكل سؤال:</p>
 
             
-            <!-- SMART SUMMARY LAUNCH BANNER -->
-            <div style="background:linear-gradient(135deg, #1e293b, #0f172a); border-radius:16px; padding:22px; margin-bottom:25px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; border:1px solid #334155;">
-                <div>
-                    <div style="color:#38bdf8; font-weight:800; font-size:0.9rem; margin-bottom:4px;">⭐ ميزة حصرية للمذاكرة السريعة</div>
-                    <h3 style="font-size:1.3rem; margin-bottom:4px;">📄 بطاقة ملخص الدرس الذكي (صفحة واحدة A4)</h3>
-                    <p style="color:#94a3af; font-size:0.9rem; margin:0;">شاملة لجميع مفاهيم الدرس واختصاراته، جاهزة للمراجعة والطباعة فوراً!</p>
-                </div>
-                <button onclick="openSummaryModal()" style="background:linear-gradient(135deg, #0284c7, #0d9488); color:#fff; border:none; padding:12px 26px; border-radius:50px; font-family:inherit; font-size:1rem; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(2, 132, 199, 0.4); display:inline-flex; align-items:center; gap:8px;">
-                    <span>فتح ملخص الدرس وطباعته</span>
-                    <i class="fas fa-print"></i>
-                </button>
-            </div>
-    
             <div class="quiz-box" id="quizBox">
                 <div class="quiz-counter" id="quizCounter">السؤال 1 من 8</div>
                 <div class="quiz-q" id="quizQuestion">أي من البيانات التالية يُحظر تماماً مشاركتها على وسائل التواصل؟</div>
@@ -497,84 +483,7 @@
         };
     </script>
 
-    <!-- SMART SUMMARY MODAL & PRINT CONTAINER -->
-    <div id="summaryModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:99999; overflow-y:auto; padding:20px 10px; backdrop-filter:blur(5px);">
-        <div style="max-width:850px; margin:20px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.3); border:2px solid #059669; animation:fadeIn 0.3s ease;">
-            <!-- Modal Header Toolbar -->
-            <div class="no-print" style="background:#0f172a; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-weight:bold; font-size:1.05rem;">📄 بطاقة ملخص الدرس الذكي (للمذاكرة السريعة)</div>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="window.print()" style="background:#059669; color:#fff; border:none; padding:7px 18px; border-radius:50px; font-family:inherit; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-                        🖨️ طباعة / حفظ كـ PDF
-                    </button>
-                    <button onclick="closeSummaryModal()" style="background:#334155; color:#fff; border:none; padding:7px 16px; border-radius:50px; font-family:inherit; font-weight:bold; cursor:pointer;">
-                        ✕ إغلاق
-                    </button>
-                </div>
-            </div>
-
-            <!-- Printable Sheet Area -->
-            <div id="printableSheet" style="padding:25px; color:#1e293b;">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #059669; padding-bottom:10px; margin-bottom:15px;">
-                    <div>
-                        <div style="font-size:0.85rem; color:#64748b;">المملكة العربية السعودية — متوسطة أبها الأهلية (بنين)</div>
-                        <h2 style="color:#059669; font-size:1.35rem; font-weight:900; margin:4px 0;">ملخص الدرس الثالث: المواطنة الرقمية والتصفح الآمن</h2>
-                        <div style="font-size:0.9rem; font-weight:bold; color:#0f172a;">الصف الثالث متوسط — مادة المهارات الرقمية | إعداد: أ. طارق ابوعشي</div>
-                    </div>
-                    <div style="text-align:left; font-size:0.8rem; color:#64748b; font-weight:bold;">
-                        <div>⭐ بطاقة مراجعة مركزة للاختبارات</div>
-                        <div>منصة المهارات الرقمية المعتمدة</div>
-                    </div>
-                </div>
-
-                
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #059669; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
-            <h4 style="color:#059669; margin-bottom:6px; font-size:1.05rem;">🚫 1. حماية البيانات الشخصية الحساسة (خط أحمر)</h4>
-            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>بيانات يُحظر نشرها ومشاركتها تماماً:</strong> الأرقام السرية للبطاقات البنكية (PIN)، صور جواز السفر والهوية الوطنية، كلمات المرور الخاصة، وعناوين الإقامة الدقيقة.</li><li style='margin-bottom:6px;'><strong>مخاطر المشاركة غير الواعية:</strong> تعرضك لسرقة الهوية (Identity Theft)، والابتزاز الإلكتروني، والهندسة الاجتماعية.</li></ul>
-        </div>
-        
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #059669; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
-            <h4 style="color:#059669; margin-bottom:6px; font-size:1.05rem;">📱 2. نصائح تصفح شبكات التواصل الاجتماعي بأمان</h4>
-            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>الحذر من كثرة الصداقات:</strong> لا تقبل سوى الأشخاص الموثوقين والذين تعرفهم شخصياً؛ ولا تغتر بكثرة الأرقام والمتابعين المجهولين.</li><li style='margin-bottom:6px;'><strong>التصدي للمتنمرين والمحتالين:</strong> استخدام خاصية <em>الحظر (Block)</em> لإيقاف قدرتهم على التفاعل، وخاصية <em>الإبلاغ (Report)</em> عن الحسابات الاحتيالية.</li><li style='margin-bottom:6px;'><strong>إعدادات الخصوصية:</strong> جعل الحسابات الشخصية خاصة (Private) ومراجعة أذونات التطبيقات باستمرار.</li></ul>
-        </div>
-        
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #059669; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
-            <h4 style="color:#059669; margin-bottom:6px; font-size:1.05rem;">👣 3. البصمة الرقمية (Digital Footprint) والسمعة الإلكترونية</h4>
-            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>المفهوم:</strong> الأثر والسجل الرقمي الدائم الذي يتركه نشاطك وتفاعلك وصورك وتعليقاتك على شبكة الإنترنت.</li><li style='margin-bottom:6px;'><strong>الأهمية المستقبلية:</strong> بصمتك الرقمية تعكس شخصيتك، وتطلع عليها الجامعات وجهات التوظيف مستقبلاً؛ لذا فكّر جيداً قبل نشر أي محتوى.</li><li style='margin-bottom:6px;'><strong>الصيانة الدورية:</strong> مسح سجل التصفح (History) وملفات تعريف الارتباط (Cookies) لحماية الخصوصية ومنع تعقب البيانات.</li></ul>
-        </div>
-        
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #059669; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
-            <h4 style="color:#059669; margin-bottom:6px; font-size:1.05rem;">🏆 4. سلوكيات المواطنة الرقمية الصالحة ومشروع الوحدة</h4>
-            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>المواطنة الرقمية:</strong> التزام الأخلاق الحميدة، احترام آراء الآخرين وحقوق الملكية، وعدم نشر الشائعات أو اختراق خصوصية الزملاء.</li><li style='margin-bottom:6px;'><strong>المصادقة الثنائية (2FA):</strong> تفعيل التحقق بخطوتين لحماية الحسابات من الاختراق حتى عند تسرب كلمة المرور.</li><li style='margin-bottom:6px;'><strong>مشروع الوحدة:</strong> تصميم عرض توعوي بالاستعانة بمكتبة مبادرة <em>العطاء الرقمي (Attaa.sa)</em>.</li></ul>
-        </div>
-        
-
-                <div style="border-top:1.5px solid #059669; padding-top:10px; margin-top:15px; display:flex; justify-content:space-between; font-size:0.85rem; color:#64748b;">
-                    <span>مادة المهارات الرقمية — الفصل الدراسي الأول</span>
-                    <span>معلم المادة: <strong>أ. طارق ابوعشي</strong></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Print Stylesheet -->
-    <style>
-        @media print {
-            body > * { display: none !important; }
-            #summaryModal, #summaryModal > div, #printableSheet {
-                display: block !important;
-                position: static !important;
-                background: #fff !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100% !important;
-                box-shadow: none !important;
-                border: none !important;
-            }
-            .no-print { display: none !important; }
-            @page { size: A4 portrait; margin: 8mm; }
-        }
-    </style>
+    
     
 </body>
 </html>
