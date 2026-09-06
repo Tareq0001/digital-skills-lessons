@@ -799,6 +799,7 @@
         let currentQ = 0;
         let score = 0;
 
+        var g1CurrentCorrectIdx = 0;
         function loadQuestion() {
             if(currentQ >= questions.length) {
                 showResults();
@@ -810,17 +811,25 @@
             const optionsDiv = document.getElementById('q-options');
             optionsDiv.innerHTML = '';
             
-            questions[currentQ].options.forEach((opt, idx) => {
+            let qData = questions[currentQ];
+            let mapped = qData.options.map((opt, idx) => ({ text: opt, isCorrect: (idx === qData.ans) }));
+            for (let i = mapped.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let temp = mapped[i]; mapped[i] = mapped[j]; mapped[j] = temp;
+            }
+
+            mapped.forEach((item, idx) => {
+                if (item.isCorrect) g1CurrentCorrectIdx = idx;
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = opt;
+                btn.innerText = item.text;
                 btn.onclick = () => checkAnswer(idx, btn);
                 optionsDiv.appendChild(btn);
             });
         }
 
         function checkAnswer(selectedIdx, btnEle) {
-            const correctIdx = questions[currentQ].ans;
+            const correctIdx = g1CurrentCorrectIdx;
             const buttons = document.querySelectorAll('.option-btn');
             buttons.forEach(b => b.style.pointerEvents = 'none'); 
             

@@ -614,11 +614,19 @@
                 const optionsDiv = document.createElement('div');
                 optionsDiv.className = 'options';
                 
-                q.options.forEach((opt, optIndex) => {
+                let mapped = q.options.map((opt, idx) => ({ text: opt, isCorrect: (idx === q.ans) }));
+                for (let i = mapped.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
+                }
+                
+                let correctIdx = 0;
+                mapped.forEach((item, optIndex) => {
+                    if (item.isCorrect) correctIdx = optIndex;
                     const btn = document.createElement('div');
                     btn.className = 'option';
-                    btn.innerText = opt;
-                    btn.onclick = () => selectAnswer(qIndex, optIndex, btn);
+                    btn.innerText = item.text;
+                    btn.onclick = () => selectAnswer(qIndex, optIndex, correctIdx, btn);
                     optionsDiv.appendChild(btn);
                 });
                 
@@ -627,16 +635,16 @@
             });
         }
 
-        function selectAnswer(qIndex, optIndex, btn) {
+        function selectAnswer(qIndex, optIndex, correctIdx, btn) {
             const options = document.querySelectorAll(`#q-${qIndex} .option`);
             options.forEach(o => o.style.pointerEvents = 'none'); // Disable clicking again
             
-            if (optIndex === quizData[qIndex].ans) {
+            if (optIndex === correctIdx) {
                 btn.classList.add('correct');
                 score++;
             } else {
                 btn.classList.add('wrong');
-                options[quizData[qIndex].ans].classList.add('correct');
+                options[correctIdx].classList.add('correct');
             }
             
             setTimeout(() => {

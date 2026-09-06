@@ -457,6 +457,8 @@
         var quizScore = 0;
         var selectedOpt = -1;
 
+        var currentCorrectIdx = 0;
+
         function loadQuiz() {
             var q = quizData[currentQ];
             document.getElementById('quizCounter').innerText = 'السؤال ' + (currentQ + 1) + ' من ' + quizData.length;
@@ -466,10 +468,22 @@
             document.getElementById('quizNextBtn').disabled = true;
             selectedOpt = -1;
 
-            q.opts.forEach(function(opt, idx) {
+            // عشوائية ترتيب الخيارات حتى لا تكون الإجابة الصحيحة دائماً في المركز الأول
+            var mapped = q.opts.map(function(opt, idx) {
+                return { text: opt, isCorrect: (idx === q.a) };
+            });
+            for (var i = mapped.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = mapped[i];
+                mapped[i] = mapped[j];
+                mapped[j] = temp;
+            }
+
+            mapped.forEach(function(item, idx) {
+                if (item.isCorrect) currentCorrectIdx = idx;
                 var btn = document.createElement('button');
                 btn.className = 'quiz-opt';
-                btn.innerText = opt;
+                btn.innerText = item.text;
                 btn.onclick = function() { selectQuizOpt(idx, btn); };
                 optsBox.appendChild(btn);
             });
@@ -478,18 +492,17 @@
         function selectQuizOpt(idx, btn) {
             if (selectedOpt !== -1) return;
             selectedOpt = idx;
-            var q = quizData[currentQ];
             var allBtns = document.querySelectorAll('.quiz-opt');
             allBtns.forEach(function(b) { b.classList.add('disabled'); });
 
-            if (idx === q.a) {
+            if (idx === currentCorrectIdx) {
                 playSound('correct');
                 btn.classList.add('correct');
                 quizScore++;
             } else {
                 playSound('wrong');
                 btn.classList.add('wrong');
-                allBtns[q.a].classList.add('correct');
+                allBtns[currentCorrectIdx].classList.add('correct');
             }
             document.getElementById('quizNextBtn').disabled = false;
         }

@@ -1558,6 +1558,7 @@ var quizData = [
 ];
 var currQuiz = 0, quizScore = 0, quizSelected = -1;
 
+var g2CurrentCorrectIdx = 0;
 function loadQuiz() {
     if (currQuiz >= quizData.length) {
         showQuizResult();
@@ -1571,10 +1572,19 @@ function loadQuiz() {
 
     var optsDiv = document.getElementById('quizOpts');
     optsDiv.innerHTML = '';
-    q.opts.forEach(function(opt, i) {
+    var mapped = q.opts.map(function(opt, idx) {
+        return { text: opt, isCorrect: (idx === q.a) };
+    });
+    for (var i = mapped.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = mapped[i]; mapped[i] = mapped[j]; mapped[j] = temp;
+    }
+
+    mapped.forEach(function(item, i) {
+        if (item.isCorrect) g2CurrentCorrectIdx = i;
         var btn = document.createElement('button');
         btn.className = 'quiz-opt';
-        btn.textContent = opt;
+        btn.textContent = item.text;
         btn.id = 'qopt-' + i;
         btn.onclick = function() { selectQuizOpt(i); };
         optsDiv.appendChild(btn);
@@ -1597,12 +1607,12 @@ function nextQuiz() {
     // Show answer
     document.querySelectorAll('.quiz-opt').forEach(function(b, i) {
         b.onclick = null;
-        if (i === q.a) b.classList.add('correct-answer');
-        if (i === quizSelected && quizSelected !== q.a) b.classList.add('wrong-answer');
+        if (i === g2CurrentCorrectIdx) b.classList.add('correct-answer');
+        if (i === quizSelected && quizSelected !== g2CurrentCorrectIdx) b.classList.add('wrong-answer');
         b.setAttribute('disabled', 'true');
     });
 
-    if (quizSelected === q.a) { quizScore++; playSound('correct'); } else { playSound('wrong'); }
+    if (quizSelected === g2CurrentCorrectIdx) { quizScore++; playSound('correct'); } else { playSound('wrong'); }
 
     document.getElementById('quizNext').disabled = true;
     setTimeout(function() {
