@@ -65,6 +65,7 @@
         .kf-track { height: 32px; background: #1f2937; border-radius: 6px; position: relative; display: flex; align-items: center; }
         .kf-node { width: 16px; height: 16px; background: #e11d48; transform: rotate(45deg); position: absolute; cursor: pointer; box-shadow: 0 0 10px #e11d48; }
         .kf-node:hover { transform: rotate(45deg) scale(1.3); }
+        .kf-node.active-node { background: #fbbf24 !important; transform: rotate(45deg) scale(1.4) !important; box-shadow: 0 0 15px #fbbf24 !important; }
 
         /* Audio Filter Sim */
         .audio-eq-box { display: flex; align-items: flex-end; justify-content: center; gap: 8px; height: 80px; margin-top: 10px; }
@@ -163,16 +164,16 @@
 
             <div class="fx-studio">
                 <h3>محاكي خط الإطارات المفتاحية (Keyframe Timeline):</h3>
-                <div class="keyframe-lane">
-                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#9ca3af; margin-bottom:4px;">
-                        <span>البداية (00:00)</span>
-                        <span>المنتصف (00:03)</span>
-                        <span>النهاية (00:06)</span>
+                <div class="keyframe-lane" style="direction: ltr;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#9ca3af; margin-bottom:8px; font-weight:bold;">
+                        <span style="color:#38bdf8;">📍 00:00 (بداية اللقطة)</span>
+                        <span style="color:#a78bfa;">⚓ 00:03 (منتصف اللقطة)</span>
+                        <span style="color:#f43f5e;">🏁 00:06 (نهاية اللقطة)</span>
                     </div>
                     <div class="kf-track">
-                        <div class="kf-node" style="left:15px;" onclick="triggerKeyframe('start')" title="نقطة البداية"></div>
-                        <div class="kf-node" style="left:50%;" onclick="triggerKeyframe('mid')" title="نقطة التثبيت"></div>
-                        <div class="kf-node" style="right:15px;" onclick="triggerKeyframe('end')" title="نقطة الخروج"></div>
+                        <div class="kf-node" id="kfStart" style="left:20px;" onclick="triggerKeyframe('start')" title="إطار البداية (00:00)"></div>
+                        <div class="kf-node" id="kfMid" style="left:50%; margin-left:-8px;" onclick="triggerKeyframe('mid')" title="إطار المنتصف (00:03)"></div>
+                        <div class="kf-node" id="kfEnd" style="right:20px;" onclick="triggerKeyframe('end')" title="إطار النهاية (00:06)"></div>
                     </div>
                 </div>
 
@@ -220,9 +221,20 @@
             <p class="section-desc">الصوت هو نصف الفيلم! تعلم كيفية تطبيق مرشح التلاشي الصوتي (Fade in / Fade out) وضبط مستويات الصوت:</p>
 
             <div class="fx-studio" style="text-align:center;">
-                <button class="start-btn" id="btnPlaySoundTest" onclick="toggleSoundDemo()" style="margin-bottom:15px;">
-                    ▶️ تشغيل تجربة الصوت مع الفلتر
-                </button>
+                <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+                    <button class="start-btn" id="btnPlayNormalAudio" onclick="startMusicDemo()" style="padding:10px 22px; font-size:1rem; background:linear-gradient(135deg, #0284c7, #0d9488);">
+                        ▶️ تشغيل صوت الخلفية (طبيعي)
+                    </button>
+                    <button class="start-btn" id="btnFadeOutAudio" onclick="applyFadeOutDemo()" style="padding:10px 22px; font-size:1rem; background:linear-gradient(135deg, #e11d48, #d97706);">
+                        📉 تطبيق التلاشي التدريجي (Fade Out)
+                    </button>
+                    <button class="start-btn" id="btnFadeInAudio" onclick="applyFadeInDemo()" style="padding:10px 22px; font-size:1rem; background:linear-gradient(135deg, #7c3aed, #a855f7);">
+                        📈 تطبيق تلاشي الدخول (Fade In)
+                    </button>
+                    <button class="start-btn" id="btnStopAudio" onclick="stopMusicDemo()" style="padding:10px 22px; font-size:1rem; background:#4b5563;">
+                        ⏹️ إيقاف
+                    </button>
+                </div>
 
                 <div class="audio-eq-box" id="eqContainer">
                     <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
@@ -230,8 +242,11 @@
                     <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
                 </div>
 
+                <div id="audioStatusMsg" style="background:#1f2937; border:1px solid #374151; border-radius:10px; padding:12px; margin-top:18px; color:#f8fafc; font-size:0.95rem; display:none;">
+                </div>
+
                 <p style="color:#9ca3af; font-size:0.9rem; margin-top:15px;">
-                    💡 ميزة <strong>Fade Out</strong> تجعل الموسيقى تنخفض بنعومة في نهاية الفيلم بدلاً من التوقف المفاجئ المزعج.
+                    💡 ميزة <strong>تلاشي الصوت (Fade Out)</strong>: تخفض مستوى الصوت تدريجياً وبنعومة تامة حتى الصمت الكامل في نهاية المشهد دون قطع مفاجئ مزعج.
                 </p>
             </div>
 
@@ -377,13 +392,20 @@
         // Keyframe triggers
         function triggerKeyframe(pt) {
             playSound('click');
+            document.querySelectorAll('.kf-node').forEach(function(n) { n.classList.remove('active-node'); });
             var box = document.getElementById('kfExplainBox');
             if (pt === 'start') {
-                box.innerHTML = '💎 <strong>إطار البداية (Start Keyframe):</strong> يحدد الموضع الأصلي للعنصر عند بداية المشهد (مثلاً خارج الشاشة جهة اليمين).';
+                var node = document.getElementById('kfStart');
+                if (node) node.classList.add('active-node');
+                box.innerHTML = '📍 <strong>إطار البداية (Start Keyframe - 00:00):</strong> يحدد الموضع الأصلي للعنصر عند بداية المشهد (مثلاً خارج الشاشة من جهة اليسار أو الأعلى).';
             } else if (pt === 'mid') {
-                box.innerHTML = '💎 <strong>إطار المنتصف (Anchor Keyframe):</strong> يحدد ثبات النص واستقراره في منتصف الشاشة لقراءته بوضوح.';
+                var node = document.getElementById('kfMid');
+                if (node) node.classList.add('active-node');
+                box.innerHTML = '⚓ <strong>إطار المنتصف (Anchor Keyframe - 00:03):</strong> يحدد ثبات النص واستقراره في منتصف الشاشة ليتمكن المشاهد من قراءته بوضوح.';
             } else if (pt === 'end') {
-                box.innerHTML = '💎 <strong>إطار النهاية (End Keyframe):</strong> يحدد وجهة خروج النص وتلاشيه مع نهاية اللقطة.';
+                var node = document.getElementById('kfEnd');
+                if (node) node.classList.add('active-node');
+                box.innerHTML = '🏁 <strong>إطار النهاية (End Keyframe - 00:06):</strong> يحدد وجهة خروج النص وتلاشيه التدريجي مع نهاية اللقطة.';
             }
         }
 
@@ -417,28 +439,122 @@
             }
         }
 
-        // Audio eq simulation
-        var isAudioPlaying = false;
-        var eqInterval = null;
-        function toggleSoundDemo() {
+        // Real Audio Synthesis & Filters Demonstration
+        var isMusicPlaying = false;
+        var audioDemoInterval = null;
+        var musicGainNode = null;
+        var currentGainVal = 0.2;
+        var melodyNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 293.66, 349.23];
+        var noteIdx = 0;
+        var fadeInterval = null;
+
+        function startMusicDemo() {
             initAudio();
-            var btn = document.getElementById('btnPlaySoundTest');
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            stopMusicDemo();
+            
+            isMusicPlaying = true;
+            musicGainNode = audioCtx.createGain();
+            currentGainVal = 0.2;
+            musicGainNode.gain.setValueAtTime(currentGainVal, audioCtx.currentTime);
+            musicGainNode.connect(audioCtx.destination);
+            
+            var status = document.getElementById('audioStatusMsg');
+            status.style.display = 'block';
+            status.innerHTML = '🔊 <strong>يتم الآن تشغيل الصوت بمستوى طبيعي كامل...</strong> استمع لموسيقى الخلفية وتذبذب مؤشر الصوت!';
+            
+            noteIdx = 0;
+            audioDemoInterval = setInterval(function() {
+                if (!isMusicPlaying) return;
+                var freq = melodyNotes[noteIdx % melodyNotes.length];
+                noteIdx++;
+                
+                var osc = audioCtx.createOscillator();
+                var noteGain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                noteGain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                
+                osc.connect(noteGain);
+                noteGain.connect(musicGainNode);
+                
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.36);
+                
+                var bars = document.querySelectorAll('.eq-bar');
+                bars.forEach(function(b) {
+                    var mult = currentGainVal / 0.2;
+                    b.style.height = Math.max(8, (Math.random() * 55 * mult + 12 * mult)) + 'px';
+                });
+            }, 250);
+        }
+
+        function stopMusicDemo() {
+            isMusicPlaying = false;
+            if (audioDemoInterval) clearInterval(audioDemoInterval);
+            if (fadeInterval) clearInterval(fadeInterval);
+            audioDemoInterval = null;
+            fadeInterval = null;
             var bars = document.querySelectorAll('.eq-bar');
-            if (!isAudioPlaying) {
-                isAudioPlaying = true;
-                playSound('correct');
-                btn.innerText = '⏹️ إيقاف المعاينة الصوتية';
-                eqInterval = setInterval(function() {
-                    bars.forEach(function(b) {
-                        b.style.height = (Math.random() * 60 + 15) + 'px';
-                    });
-                }, 150);
-            } else {
-                isAudioPlaying = false;
-                clearInterval(eqInterval);
-                bars.forEach(function(b) { b.style.height = '15px'; });
-                btn.innerText = '▶️ تشغيل تجربة الصوت مع الفلتر';
+            bars.forEach(function(b) { b.style.height = '12px'; });
+            var status = document.getElementById('audioStatusMsg');
+            if (status) status.innerHTML = '⏹️ تم إيقاف الصوت.';
+        }
+
+        function applyFadeOutDemo() {
+            if (!isMusicPlaying) {
+                startMusicDemo();
             }
+            if (fadeInterval) clearInterval(fadeInterval);
+            
+            var status = document.getElementById('audioStatusMsg');
+            status.style.display = 'block';
+            status.innerHTML = '📉 <strong>جارِ تطبيق التلاشي الصوتي (Fade Out)...</strong> استمع لانخفاض مستوى الصوت تدريجياً وبنعومة حتى الصمت الكامل!';
+            
+            var startTime = audioCtx.currentTime;
+            var duration = 3.5;
+            musicGainNode.gain.setValueAtTime(currentGainVal, startTime);
+            musicGainNode.gain.linearRampToValueAtTime(0.0001, startTime + duration);
+            
+            var steps = 35;
+            var stepCount = 0;
+            fadeInterval = setInterval(function() {
+                stepCount++;
+                currentGainVal = Math.max(0, 0.2 * (1 - stepCount / steps));
+                if (stepCount >= steps) {
+                    clearInterval(fadeInterval);
+                    stopMusicDemo();
+                    status.innerHTML = '✅ <strong>تم التلاشي (Fade Out) بنجاح!</strong> انخفض الصوت إلى الصفر بانسيابية تامة كما يحدث في نهايات الأفلام الاحترافية.';
+                }
+            }, 100);
+        }
+
+        function applyFadeInDemo() {
+            startMusicDemo();
+            if (fadeInterval) clearInterval(fadeInterval);
+            
+            var status = document.getElementById('audioStatusMsg');
+            status.style.display = 'block';
+            status.innerHTML = '📈 <strong>جارِ تطبيق تلاشي الدخول (Fade In)...</strong> استمع لتصاعد الصوت تدريجياً من الصفر حتى المستوى الطبيعي!';
+            
+            var startTime = audioCtx.currentTime;
+            var duration = 3.0;
+            currentGainVal = 0.0001;
+            musicGainNode.gain.setValueAtTime(0.0001, startTime);
+            musicGainNode.gain.linearRampToValueAtTime(0.2, startTime + duration);
+            
+            var steps = 30;
+            var stepCount = 0;
+            fadeInterval = setInterval(function() {
+                stepCount++;
+                currentGainVal = Math.min(0.2, 0.2 * (stepCount / steps));
+                if (stepCount >= steps) {
+                    clearInterval(fadeInterval);
+                    status.innerHTML = '✅ <strong>اكتمل تلاشي الدخول (Fade In)!</strong> دخل المقطع الصوتي بنعومة في بداية المشهد.';
+                }
+            }, 100);
         }
 
         // Quiz Logic
