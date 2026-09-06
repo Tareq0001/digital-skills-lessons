@@ -102,6 +102,7 @@
         <button class="nav-btn" onclick="goTo('keyframes')">💎 الإطارات المفتاحية</button>
         <button class="nav-btn" onclick="goTo('transitions')">✨ التأثيرات الانتقالية</button>
         <button class="nav-btn" onclick="goTo('audio')">🎵 مرشحات الصوت</button>
+        <button class="nav-btn" style="background:#f1f5f9; color:#0f172a;" onclick="openSummaryModal()">📄 ملخص الدرس الذكي 🖨️</button>
         <button class="nav-btn" onclick="goTo('quiz')">📝 الاختبار</button>
     </div>
 
@@ -262,6 +263,20 @@
             <h2 class="section-title">📝 الاختبار النهائي</h2>
             <p class="section-desc">اختبر مهاراتك في درس التأثيرات البصرية! اختر الإجابة الصحيحة لكل سؤال:</p>
 
+            
+            <!-- SMART SUMMARY LAUNCH BANNER -->
+            <div style="background:linear-gradient(135deg, #1e293b, #0f172a); border-radius:16px; padding:22px; margin-bottom:25px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; border:1px solid #334155;">
+                <div>
+                    <div style="color:#38bdf8; font-weight:800; font-size:0.9rem; margin-bottom:4px;">⭐ ميزة حصرية للمذاكرة السريعة</div>
+                    <h3 style="font-size:1.3rem; margin-bottom:4px;">📄 بطاقة ملخص الدرس الذكي (صفحة واحدة A4)</h3>
+                    <p style="color:#94a3af; font-size:0.9rem; margin:0;">شاملة لجميع مفاهيم الدرس واختصاراته، جاهزة للمراجعة والطباعة فوراً!</p>
+                </div>
+                <button onclick="openSummaryModal()" style="background:linear-gradient(135deg, #0284c7, #0d9488); color:#fff; border:none; padding:12px 26px; border-radius:50px; font-family:inherit; font-size:1rem; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(2, 132, 199, 0.4); display:inline-flex; align-items:center; gap:8px;">
+                    <span>فتح ملخص الدرس وطباعته</span>
+                    <i class="fas fa-print"></i>
+                </button>
+            </div>
+    
             <div class="quiz-box" id="quizBox">
                 <div class="quiz-counter" id="quizCounter">السؤال 1 من 8</div>
                 <div class="quiz-q" id="quizQuestion">ما هي الوظيفة الأساسية للإطارات المفتاحية (Keyframes)؟</div>
@@ -652,5 +667,85 @@
             loadQuiz();
         };
     </script>
+
+    <!-- SMART SUMMARY MODAL & PRINT CONTAINER -->
+    <div id="summaryModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:99999; overflow-y:auto; padding:20px 10px; backdrop-filter:blur(5px);">
+        <div style="max-width:850px; margin:20px auto; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.3); border:2px solid #7c3aed; animation:fadeIn 0.3s ease;">
+            <!-- Modal Header Toolbar -->
+            <div class="no-print" style="background:#0f172a; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-weight:bold; font-size:1.05rem;">📄 بطاقة ملخص الدرس الذكي (للمذاكرة السريعة)</div>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="window.print()" style="background:#7c3aed; color:#fff; border:none; padding:7px 18px; border-radius:50px; font-family:inherit; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                        🖨️ طباعة / حفظ كـ PDF
+                    </button>
+                    <button onclick="closeSummaryModal()" style="background:#334155; color:#fff; border:none; padding:7px 16px; border-radius:50px; font-family:inherit; font-weight:bold; cursor:pointer;">
+                        ✕ إغلاق
+                    </button>
+                </div>
+            </div>
+
+            <!-- Printable Sheet Area -->
+            <div id="printableSheet" style="padding:25px; color:#1e293b;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #7c3aed; padding-bottom:10px; margin-bottom:15px;">
+                    <div>
+                        <div style="font-size:0.85rem; color:#64748b;">المملكة العربية السعودية — متوسطة أبها الأهلية (بنين)</div>
+                        <h2 style="color:#7c3aed; font-size:1.35rem; font-weight:900; margin:4px 0;">ملخص الدرس الثالث: التأثيرات البصرية في مقاطع الفيديو</h2>
+                        <div style="font-size:0.9rem; font-weight:bold; color:#0f172a;">الصف الثاني متوسط — مادة المهارات الرقمية | إعداد: أ. طارق ابوعشي</div>
+                    </div>
+                    <div style="text-align:left; font-size:0.8rem; color:#64748b; font-weight:bold;">
+                        <div>⭐ بطاقة مراجعة مركزة للاختبارات</div>
+                        <div>منصة المهارات الرقمية المعتمدة</div>
+                    </div>
+                </div>
+
+                
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #7c3aed; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
+            <h4 style="color:#7c3aed; margin-bottom:6px; font-size:1.05rem;">🔤 1. إدراج النصوص في الفيديو (Text Filter)</h4>
+            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>المُرشح المستخدم:</strong> في برنامج <em>Shotcut</em> نستخدم مرشح <code>Text: Simple (نص: بسيط)</code> من فئات الفيديو.</li><li style='margin-bottom:6px;'><strong>التخصيص والموضع:</strong> يتيح كتابة العناوين وتغيير نوع الخط واللون والحجم ومحاذاة النص في منتصف أو أسفل الشاشة على المخطط الزمني (Timeline).</li></ul>
+        </div>
+        
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #7c3aed; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
+            <h4 style="color:#7c3aed; margin-bottom:6px; font-size:1.05rem;">💎 2. الإطارات المفتاحية (Keyframes) ونقاط الربط</h4>
+            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>المفهوم:</strong> نقاط ربط وعلامات زمنية تُحدد لبرنامج المونتاج موضع بدء الحركة ووقت انتهائها وسرعتها بدقة.</li><li style='margin-bottom:6px;'><strong>الإطار (Frame):</strong> في صناعة الأفلام والرسوم المتحركة، يُعد الإطار صورة ثابتة مفردة من آلاف الصور المتتالية التي تشكل الفيديو.</li><li style='margin-bottom:6px;'><strong>أيقونة المعين:</strong> علامة الإطار المفتاحي تظهر كمعين أحمر في خط زمن الإطارات المفتاحية أسفل البرنامج.</li></ul>
+        </div>
+        
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #7c3aed; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
+            <h4 style="color:#7c3aed; margin-bottom:6px; font-size:1.05rem;">✨ 3. التأثيرات الحركية والانتقالية (Transitions)</h4>
+            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>التأثير الحركي للنص:</strong> مثل <em>Slide In From Left</em> (انزلاق النص من اليسار) أو <em>Slide In From Top</em> للدخول الديناميكي.</li><li style='margin-bottom:6px;'><strong>التأثيرات الانتقالية (Transitions):</strong> تُستخدم لربط لقطة بأخرى بسلاسة وجمالية سينمائية تمنع القفزات المفاجئة والقطع المزعج بين المشاهد (مثل تلاشي Dissolve أو مسح Wipe).</li></ul>
+        </div>
+        
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-right:4px solid #7c3aed; border-radius:8px; padding:12px 16px; margin-bottom:12px; text-align:right;">
+            <h4 style="color:#7c3aed; margin-bottom:6px; font-size:1.05rem;">🎵 4. تحرير وفلاتر الصوت (Audio Filters)</h4>
+            <ul style="padding-right:20px; color:#1e293b; font-size:0.92rem; line-height:1.6;"><li style='margin-bottom:6px;'><strong>مرشح تلاشي الخروج (Fade Out Audio):</strong> خفض مستوى الصوت تدريجياً وبنعومة حتى النهاية في ختام الفيلم بدلاً من الانقطاع المفاجئ.</li><li style='margin-bottom:6px;'><strong>مرشح تلاشي الدخول (Fade In Audio):</strong> رفع مستوى الصوت تدريجياً وبنعومة في افتتاحية المشهد.</li><li style='margin-bottom:6px;'><strong>التصدير النهائي:</strong> تصدير العمل المكتمل بصيغة <code>MP4</code> لتوفير أعلى جودة فيديو مع حجم ملف مناسب.</li></ul>
+        </div>
+        
+
+                <div style="border-top:1.5px solid #7c3aed; padding-top:10px; margin-top:15px; display:flex; justify-content:space-between; font-size:0.85rem; color:#64748b;">
+                    <span>مادة المهارات الرقمية — الفصل الدراسي الأول</span>
+                    <span>معلم المادة: <strong>أ. طارق ابوعشي</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Stylesheet -->
+    <style>
+        @media print {
+            body > * { display: none !important; }
+            #summaryModal, #summaryModal > div, #printableSheet {
+                display: block !important;
+                position: static !important;
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .no-print { display: none !important; }
+            @page { size: A4 portrait; margin: 8mm; }
+        }
+    </style>
+    
 </body>
 </html>
