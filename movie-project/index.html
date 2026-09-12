@@ -82,8 +82,8 @@
         .time-display { font-family: monospace; font-size: 0.95rem; color: #38bdf8; font-weight: 700; }
 
         .timeline-area { background: var(--timeline-bg); padding: 18px; position: relative; }
-        .playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #ef4444; z-index: 10; left: 18px; transition: left 0.1s linear; pointer-events: none; }
-        .playhead::before { content: '▼'; position: absolute; top: 0; transform: translate(-50%, -50%); color: #ef4444; font-size: 12px; }
+        .playhead { position: absolute; top: 0; bottom: 0; width: 3px; background: #ef4444; z-index: 10; right: 130px; left: auto; transition: right 0.1s linear; pointer-events: none; box-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
+        .playhead::before { content: '▼'; position: absolute; top: -2px; right: 50%; transform: translate(50%, -50%); color: #ef4444; font-size: 14px; }
 
         .track-row { display: flex; align-items: center; margin-bottom: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 6px; border: 1px dashed rgba(255,255,255,0.08); }
         .track-label { width: 95px; font-weight: 800; font-size: 0.85rem; padding: 8px; border-radius: 6px; text-align: center; margin-left: 10px; flex-shrink: 0; }
@@ -590,8 +590,47 @@
         // Studio Timeline Simulator
         var isPlaying = false;
         var playInterval = null;
-        var playheadPos = 18;
-        var playSec = 3;
+        var playCurrentTime = 0;
+
+        function getClipRightBounds() {
+            var tl = document.getElementById('timelineArea');
+            var c1 = document.getElementById('clipAsir');
+            var c3 = document.getElementById('clipJeddah');
+            if (!tl || !c1 || !c3) return { start: 130, end: 620 };
+            var tlRect = tl.getBoundingClientRect();
+            var c1Rect = c1.getBoundingClientRect();
+            var c3Rect = c3.getBoundingClientRect();
+            return {
+                start: Math.max(120, tlRect.right - c1Rect.right),
+                end: Math.max(500, tlRect.right - c3Rect.left)
+            };
+        }
+
+        function updatePlayheadUI(timeInSec) {
+            playCurrentTime = timeInSec;
+            if (playCurrentTime >= 15) playCurrentTime = 0;
+            var bounds = getClipRightBounds();
+            var progress = playCurrentTime / 15.0;
+            var curRight = bounds.start + progress * (bounds.end - bounds.start);
+            var pHead = document.getElementById('playhead');
+            if (pHead) {
+                pHead.style.left = 'auto';
+                pHead.style.right = curRight + 'px';
+            }
+            var s = Math.floor(playCurrentTime);
+            var sStr = s < 10 ? '0' + s : s;
+            var td = document.getElementById('timeDisplay');
+            if (td) td.innerText = '00:00:' + sStr + ' / 00:00:15';
+
+            var sIdx = Math.min(2, Math.floor(playCurrentTime / 5));
+            var cScene = scenes[sIdx];
+            if (cScene) {
+                setScreenScene(cScene.name, cScene.clip, cScene.title, cScene.img);
+                document.querySelectorAll('.clip-v').forEach(function(c) { c.classList.remove('active'); });
+                var aBtn = document.getElementById(cScene.id);
+                if (aBtn) aBtn.classList.add('active');
+            }
+        }
 
         function togglePlay() {
             initAudio();
@@ -600,23 +639,11 @@
             if (isPlaying) {
                 icon.className = 'fa-solid fa-pause';
                 playInterval = setInterval(function() {
-                    playheadPos += 2;
-                    if (playheadPos > 320) playheadPos = 18;
-                    document.getElementById('playhead').style.left = playheadPos + 'px';
-                    playSec = Math.floor((playheadPos - 18) / 20);
-                    var s = playSec < 10 ? '0' + playSec : playSec;
-                    document.getElementById('timeDisplay').innerText = '00:00:' + s + ' / 00:00:15';
-
-                    // Synchronize scene image based on playhead position
-                    var sIdx = Math.floor(playSec / 5);
-                    if (sIdx > 2) sIdx = 2;
-                    var cScene = scenes[sIdx];
-                    if (cScene) {
-                        setScreenScene(cScene.name, cScene.clip, cScene.title, cScene.img);
-                        document.querySelectorAll('.clip-v').forEach(function(c) { c.classList.remove('active'); });
-                        var aBtn = document.getElementById(cScene.id);
-                        if (aBtn) aBtn.classList.add('active');
+                    playCurrentTime += 0.1;
+                    if (playCurrentTime >= 15.0) {
+                        playCurrentTime = 0;
                     }
+                    updatePlayheadUI(playCurrentTime);
                 }, 100);
             } else {
                 icon.className = 'fa-solid fa-play';
@@ -654,6 +681,9 @@
             document.querySelectorAll('.t-clip').forEach(function(c) { c.classList.remove('active'); });
             if (el) el.classList.add('active');
             setScreenScene(region, clipName, overlayTitle, imgUrl);
+            if (region === 'عسير') updatePlayheadUI(0);
+            else if (region === 'الرياض') updatePlayheadUI(5);
+            else if (region === 'جدة') updatePlayheadUI(10);
         }
 
         function selectTextClip(clipName, textContent, el) {
