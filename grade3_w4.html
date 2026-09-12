@@ -98,6 +98,18 @@
         .rec-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 11px 20px; border-radius: 8px; font-family: inherit; font-weight: 800; cursor: pointer; transition: 0.2s; }
         .rec-btn:hover { filter: brightness(1.15); }
 
+        
+        /* Enhanced Quiz Badges & Styles */
+        .q-badge { font-size: 0.82rem; font-weight: 800; padding: 4px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
+        .badge-mcq { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .badge-tf { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-fill { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .blank-spot { color: #f59e0b; border-bottom: 3px dashed #f59e0b; padding: 2px 10px; font-weight: 900; transition: all 0.3s; display: inline-block; }
+        .blank-spot.correct { color: #10b981; border-color: #10b981; border-style: solid; background: rgba(16, 185, 129, 0.15); border-radius: 6px; }
+        .blank-spot.wrong { color: #ef4444; border-color: #ef4444; border-style: solid; background: rgba(239, 68, 68, 0.15); border-radius: 6px; }
+        .grid-tf { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .opt-tf { text-align: center !important; justify-content: center !important; font-size: 1.15rem !important; padding: 18px !important; }
+
         /* Quiz */
         .quiz-card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1); padding: 30px; margin-bottom: 30px; }
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px; }
@@ -428,7 +440,7 @@
             <div class="quiz-card" id="quizBox">
                 <div class="quiz-header">
                     <div class="quiz-counter" id="quizCounter">السؤال 1 من 10</div>
-                    <div style="color: #38bdf8; font-weight: 700;"><i class="fa-solid fa-award"></i> مهارات قواعد البيانات</div>
+                    <div id="quizTypeBadge"><span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span></div>
                 </div>
                 <div class="quiz-q" id="quizQuestion">جارٍ تحميل السؤال...</div>
                 <div class="quiz-opts" id="quizOptions"></div>
@@ -560,8 +572,10 @@
         }
 
         // 10 Comprehensive Randomized Quiz Questions
+        
         var quizData = [
             {
+                type: "mcq",
                 q: "ما التعريف الدقيق لمفهوم 'قاعدة البيانات' (Database)؟",
                 opts: [
                     "مجموعة منظمة من البيانات والمعلومات المرتبطة بموضوع معين، مخزنة إلكترونياً لسهولة استرجاعها",
@@ -572,6 +586,7 @@
                 a: 0
             },
             {
+                type: "mcq",
                 q: "ما هو الاختصار الشائع لـ 'نظام إدارة قواعد البيانات' باللغة الإنجليزية؟",
                 opts: [
                     "DBMS (Database Management System)",
@@ -582,36 +597,7 @@
                 a: 0
             },
             {
-                q: "ماذا يمثل كل 'صف أفقي' (Row) داخل جدول قاعدة البيانات؟",
-                opts: [
-                    "سجل كامل (Record) يحتوي على كافة بيانات عنصر أو شخص محدد",
-                    "حقل مستقل (Field) يحدد نوع البيانات",
-                    "اسم الجدول الإجمالي",
-                    "مفتاحاً أجنبياً دائماً"
-                ],
-                a: 0
-            },
-            {
-                q: "ماذا يمثل كل 'عمود رأسي' (Column) داخل جدول قاعدة البيانات؟",
-                opts: [
-                    "حقل (Field) مخصص لنوع محدد من البيانات لكافة السجلات",
-                    "سجل كامل لشخص واحد",
-                    "قاعدة البيانات بأكملها",
-                    "ملف وسائط متعددة خارجي"
-                ],
-                a: 0
-            },
-            {
-                q: "ما هما الشرطان الأساسيان الواجب توفرهما في 'المفتاح الأساسي' (Primary Key)؟",
-                opts: [
-                    "أن تكون قيمته فريدة لا تتكرر، ولا يمكن تركه فارغاً (Not Null)",
-                    "أن يكون دائماً نصاً طويلاً يزيد عن 100 حرف",
-                    "أن يتغير تلقائياً كلما تم فتح البرنامج",
-                    "أن يحتوي على أرقام سالبة فقط"
-                ],
-                a: 0
-            },
-            {
+                type: "mcq",
                 q: "في برنامج Microsoft Access، ما هي طريقة العرض المستخدمة لتحديد بنية الجدول وأسماء الحقول وأنواع بياناتها؟",
                 opts: [
                     "طريقة عرض التصميم (Design View)",
@@ -622,7 +608,57 @@
                 a: 0
             },
             {
-                q: "في Microsoft Access، ما نوع البيانات المناسب لتخزين (رقم الهاتف) أو (الاسم الكامل)؟",
+                type: "mcq",
+                q: "ما الميزة الجوهرية لقواعد البيانات مقارنة بملفات الجداول الإلكترونية (مثل Excel) عند التعامل مع المؤسسات الكبرى؟",
+                opts: [
+                    "القدرة على إدارة ملايين السجلات بكفاءة وأمان مع دعم التعدد اللحظي للمستخدمين ومنع التكرار",
+                    "أنها مجانية دائماً ولا تتطلب أي تثبيت",
+                    "أنها لا تحتاج إلى مساحة تخزين على القرص الصلب",
+                    "أنها لا تسمح بوضع كلمات مرور"
+                ],
+                a: 0
+            },
+            {
+                type: "tf",
+                q: "يُسمح بتكرار نفس قيمة المفتاح الأساسي (Primary Key) لأكثر من طالب داخل نفس الجدول في Access.",
+                opts: [
+                    "✅ صح (صواب)",
+                    "❌ خطأ"
+                ],
+                a: 1
+            },
+            {
+                type: "tf",
+                q: "يشترط في المفتاح الأساسي (Primary Key) ألا يُترك فارغاً (Not Null) عند إدخال أي سجل جديد.",
+                opts: [
+                    "✅ صح (صواب)",
+                    "❌ خطأ"
+                ],
+                a: 0
+            },
+            {
+                type: "tf",
+                q: "تُستخدم طريقة عرض ورقة البيانات (Datasheet View) في Access لإدخال وعرض وتعديل السجلات الفعلية.",
+                opts: [
+                    "✅ صح (صواب)",
+                    "❌ خطأ"
+                ],
+                a: 0
+            },
+            {
+                type: "fill",
+                q: "يمثل كل صف أفقي في جدول قاعدة البيانات [ ........ ] يحتوي على كافة معلومات شخص أو عنصر محدد.",
+                opts: [
+                    "سجلاً كاملاً (Record)",
+                    "حقلاً مستقلاً (Field)",
+                    "جدولاً فرعياً",
+                    "مفتاحاً أجنبياً"
+                ],
+                a: 0
+            },
+            {
+                type: "fill",
+                q: "نوع البيانات الأنسب في Microsoft Access لتخزين رقم هاتف الطالب أو اسمه الكامل هو [ ........ ].",
                 opts: [
                     "نص مختصر (Short Text)",
                     "عملة (Currency)",
@@ -632,36 +668,18 @@
                 a: 0
             },
             {
-                q: "ماذا يحدث عند محاولة إدخال سجل جديد بنفس قيمة المفتاح الأساسي لسجل موجود مسبقاً في Access؟",
+                type: "fill",
+                q: "يُعد رقم [ ........ ] هو المثال الأمثل لاختياره كمفتاح أساسي (Primary Key) في قاعدة بيانات نظام نور.",
                 opts: [
-                    "يرفض النظام الحفظ ويظهر رسالة خطأ لانتهاك قيد المفتاح الأساسي",
-                    "يتم حذف السجل القديم تلقائياً دون تنبيه",
-                    "يتم إغلاق الحاسب وإعادة تشغيله",
-                    "يتم دمج الاسمين معاً في سجل واحد"
-                ],
-                a: 0
-            },
-            {
-                q: "أي من الآتي يعتبر مثالاً مثالياً للمفتاح الأساسي (Primary Key) في جدول الطلاب؟",
-                opts: [
-                    "رقم الهوية الوطنية أو الرقم الأكاديمي للطالب",
+                    "الهوية الوطنية (أو الإقامة)",
                     "الاسم الأول للطالب",
-                    "اسم المدينة التي يسكن فيها الطالب",
-                    "تاريخ ميلاد الطالب"
-                ],
-                a: 0
-            },
-            {
-                q: "ما الميزة الجوهرية لقواعد البيانات مقارنة بملفات الجداول الإلكترونية (مثل Excel) عند التعامل مع المؤسسات الكبرى؟",
-                opts: [
-                    "القدرة على إدارة ملايين السجلات بكفاءة وأمان مع دعم التعدد اللحظي للمستخدمين ومنع التكرار",
-                    "أنها مجانية دائماً ولا تتطلب أي تثبيت",
-                    "أنها لا تحتاج إلى مساحة تخزين على القرص الصلب",
-                    "أنها لا تسمح بوضع كلمات مرور"
+                    "اسم مدينة السكن",
+                    "الصف الدراسي"
                 ],
                 a: 0
             }
         ];
+
 
         var currentQ = 0;
         var quizScore = 0;
@@ -671,13 +689,34 @@
         function loadQuiz() {
             var q = quizData[currentQ];
             document.getElementById('quizCounter').innerText = 'السؤال ' + (currentQ + 1) + ' من ' + quizData.length;
-            document.getElementById('quizQuestion').innerText = q.q;
+            
+            var badgeBox = document.getElementById('quizTypeBadge');
+            if (q.type === 'tf') {
+                badgeBox.innerHTML = '<span class="q-badge badge-tf"><i class="fa-solid fa-scale-balanced"></i> صح أم خطأ</span>';
+            } else if (q.type === 'fill') {
+                badgeBox.innerHTML = '<span class="q-badge badge-fill"><i class="fa-solid fa-pen-to-square"></i> املأ الفراغ</span>';
+            } else {
+                badgeBox.innerHTML = '<span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span>';
+            }
+
+            if (q.type === 'fill') {
+                var formattedQ = q.q.replace('[ ........ ]', '<span class="blank-spot" id="blankSpot">..........</span>');
+                document.getElementById('quizQuestion').innerHTML = formattedQ;
+            } else {
+                document.getElementById('quizQuestion').innerText = q.q;
+            }
+
             var optsBox = document.getElementById('quizOptions');
             optsBox.innerHTML = '';
             document.getElementById('quizNextBtn').disabled = true;
             selectedOpt = -1;
 
-            // Shuffle options (Fisher-Yates)
+            if (q.type === 'tf') {
+                optsBox.className = 'quiz-opts grid-tf';
+            } else {
+                optsBox.className = 'quiz-opts';
+            }
+
             var mapped = q.opts.map(function(opt, idx) {
                 return { text: opt, isCorrect: (idx === q.a) };
             });
@@ -691,27 +730,37 @@
             mapped.forEach(function(item, idx) {
                 if (item.isCorrect) currentCorrectIdx = idx;
                 var btn = document.createElement('button');
-                btn.className = 'quiz-opt';
+                btn.className = 'quiz-opt' + (q.type === 'tf' ? ' opt-tf' : '');
                 btn.innerText = item.text;
-                btn.onclick = function() { selectQuizOpt(idx, btn); };
+                btn.onclick = function() { selectQuizOpt(idx, btn, item.text, q.type); };
                 optsBox.appendChild(btn);
             });
         }
 
-        function selectQuizOpt(idx, btn) {
+        function selectQuizOpt(idx, btn, text, type) {
             if (selectedOpt !== -1) return;
             selectedOpt = idx;
             var allBtns = document.querySelectorAll('.quiz-opt');
             allBtns.forEach(function(b) { b.classList.add('disabled'); });
 
+            var blankEl = document.getElementById('blankSpot');
+
             if (idx === currentCorrectIdx) {
                 playSound('correct');
                 btn.classList.add('correct');
                 quizScore++;
+                if (blankEl) {
+                    blankEl.innerText = text;
+                    blankEl.className = 'blank-spot correct';
+                }
             } else {
                 playSound('wrong');
                 btn.classList.add('wrong');
                 allBtns[currentCorrectIdx].classList.add('correct');
+                if (blankEl) {
+                    blankEl.innerText = text;
+                    blankEl.className = 'blank-spot wrong';
+                }
             }
             document.getElementById('quizNextBtn').disabled = false;
         }
@@ -733,11 +782,11 @@
             document.getElementById('resultScoreText').innerText = quizScore + ' / ' + quizData.length;
             var fb = document.getElementById('resultFeedback');
             if (quizScore >= 9) {
-                fb.innerText = '🌟 أداء استثنائي ومتقن 100%! أنت مهندس قواعد بيانات موهوب ومتمكن من كافة المفاهيم.';
+                fb.innerText = '🌟 أداء أسطوري ومبهر! لقد أتقنت جميع مهارات الوحدة بنسبة 100%.';
             } else if (quizScore >= 7) {
-                fb.innerText = '👏 رائع جداً! استيعابك لمفاهيم الجداول والحقول والمفتاح الأساسي ممتاز.';
+                fb.innerText = '👏 رائع جداً! معلوماتك ممتازة وأنت جاهز تماماً لتسليم المشروع وحل الواجب.';
             } else {
-                fb.innerText = '📚 ننصحك بمراجعة محاكي Access وشروط المفتاح الأساسي وإعادة التحدي!';
+                fb.innerText = '📚 ننصحك بمراجعة محاكيات الوحدة وإعادة المحاولة لتحقيق الدرجة الكاملة!';
             }
         }
 
@@ -748,6 +797,7 @@
             document.getElementById('quizBox').style.display = 'block';
             loadQuiz();
         }
+
 
         window.onload = function() {
             loadQuiz();
