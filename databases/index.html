@@ -23,7 +23,13 @@
             --radius: 16px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.92) 100%), url('/assets/bg_abha_tech.jpg') center center / cover no-repeat fixed;
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
 
         .section { display: none; min-height: 100vh; padding: 2rem 1rem; animation: fadeIn 0.4s ease; }
         .section.active { display: block; }
@@ -41,7 +47,7 @@
         .section-desc { text-align: center; font-size: 1.1rem; color: var(--text-light); margin-bottom: 30px; }
 
         /* Hero */
-        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 100vh; background: radial-gradient(circle at top center, #082f49 0%, #0f172a 70%); padding: 2rem; position: relative; overflow: hidden; }
+        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 100vh; background: radial-gradient(circle at top center, rgba(8, 47, 73, 0.5) 0%, rgba(15, 23, 42, 0.75) 70%); padding: 2rem; position: relative; overflow: hidden; }
         .hero .logos { display: flex; gap: 24px; align-items: center; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; z-index: 1; }
         .hero .logos img { height: 85px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); background: rgba(255,255,255,0.06); padding: 8px 14px; border-radius: 12px; }
         .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 900; background: linear-gradient(135deg, #38bdf8, #2dd4bf, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; z-index: 1; }
