@@ -42,6 +42,7 @@
 
         /* Hero */
         .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 100vh; background: radial-gradient(circle at top center, #082f49 0%, #0f172a 70%); padding: 2rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; width: 350px; height: 350px; background: var(--secondary); filter: blur(140px); opacity: 0.2; top: 10%; right: 15%; pointer-events: none; }
         .hero .logos { display: flex; gap: 24px; align-items: center; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; z-index: 1; }
         .hero .logos img { height: 85px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); background: rgba(255,255,255,0.06); padding: 8px 14px; border-radius: 12px; }
         .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 900; background: linear-gradient(135deg, #38bdf8, #2dd4bf, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; z-index: 1; }
@@ -58,7 +59,7 @@
         .card-title { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
         .card-text { font-size: 0.98rem; color: var(--text-light); line-height: 1.6; }
 
-        /* Structure Flow */
+        /* Hierarchy Diagram */
         .db-structure { background: var(--card-bg); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1); padding: 30px; margin-bottom: 30px; }
         .structure-flow { display: flex; flex-direction: column; gap: 14px; margin: 20px 0; }
         .flow-level { display: flex; align-items: center; gap: 16px; background: var(--card-light); padding: 14px 20px; border-radius: 12px; border-right: 5px solid var(--primary); transition: 0.2s; }
@@ -81,13 +82,7 @@
         .db-tbl th { background: #0f172a; color: #38bdf8; padding: 12px; border: 1px solid rgba(255,255,255,0.1); font-weight: 800; }
         .db-tbl td { padding: 10px 12px; border: 1px solid rgba(255,255,255,0.08); color: #e2e8f0; }
         .db-tbl tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-        .pk-key { color: #f59e0b; margin-left: 6px; cursor: pointer; }
-
-        /* Extra Field Adder Bar */
-        .add-field-bar { background: var(--card-light); padding: 12px 16px; border-radius: 10px; margin-top: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .acc-input { background: #0f172a; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px 12px; border-radius: 8px; font-family: inherit; font-size: 0.9rem; }
-        .acc-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-family: inherit; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .acc-btn:hover { filter: brightness(1.15); }
+        .pk-key { color: #f59e0b; margin-left: 6px; }
 
         /* Primary Key Box */
         .pk-card { background: linear-gradient(135deg, #1e1b4b, #0f172a); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: var(--radius); padding: 25px; margin-bottom: 30px; }
@@ -96,7 +91,7 @@
         .pk-rule-item h4 { color: #fbbf24; font-size: 1.05rem; font-weight: 800; margin-bottom: 5px; }
         .pk-rule-item p { color: #cbd5e1; font-size: 0.92rem; }
 
-        /* Add Record Form */
+        /* Interactive Record Form */
         .add-record-box { background: var(--card-light); padding: 18px; border-radius: 12px; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; align-items: flex-end; }
         .rec-input-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
         .rec-input { width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 9px 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; }
@@ -119,19 +114,6 @@
         .quiz-next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .result-box { text-align: center; padding: 30px; display: none; }
         .result-score { font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg, #10b981, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
-
-        
-        /* Quiz Enhanced Styles */
-        .q-badge { font-size: 0.82rem; font-weight: 800; padding: 4px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
-        .badge-mcq { background: rgba(56, 189, 248, 0.15); color: #0284c7; border: 1px solid rgba(56, 189, 248, 0.3); }
-        .badge-tf { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .badge-fill { background: rgba(168, 85, 247, 0.15); color: #7c3aed; border: 1px solid rgba(168, 85, 247, 0.3); }
-        .blank-spot { color: #d97706; border-bottom: 3px dashed #d97706; padding: 2px 10px; font-weight: 900; transition: all 0.3s; display: inline-block; }
-        .blank-spot.correct { color: #065f46; border-color: #10b981; border-style: solid; background: rgba(16, 185, 129, 0.15); border-radius: 6px; }
-        .blank-spot.wrong { color: #991b1b; border-color: #ef4444; border-style: solid; background: rgba(239, 68, 68, 0.15); border-radius: 6px; }
-        .grid-tf { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .opt-tf { text-align: center !important; justify-content: center !important; font-size: 1.15rem !important; padding: 18px !important; }
-
 
         footer { text-align: center; padding: 35px 20px; background: #090d16; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; color: var(--text-light); margin-top: 40px; }
         footer strong { color: #38bdf8; }
@@ -242,11 +224,11 @@
         </div>
     </section>
 
-    <!-- Section 3: Access Simulator with Extra Custom Field Feature -->
+    <!-- Section 3: Access Simulator -->
     <section class="section" id="accessSec">
         <div class="container">
-            <h2 class="section-title">استوديو محاكاة Microsoft Access التفاعلي</h2>
-            <p class="section-desc">جرب التبديل بين طريقة عرض التصميم وطريقة عرض ورقة البيانات، أضف حقولاً مخصصة، وأدخل السجلات</p>
+            <h2 class="section-title">استوديو محاكاة Microsoft Access</h2>
+            <p class="section-desc">جرب التبديل بين طريقة عرض التصميم وطريقة عرض ورقة البيانات، وأضف سجلاتك عملياً</p>
 
             <div class="access-window">
                 <div class="access-ribbon">
@@ -263,7 +245,7 @@
                         <div style="margin-bottom: 12px; color: #38bdf8; font-weight: 700;">
                             <i class="fa-solid fa-sliders"></i> في عرض التصميم يتم تحديد أسماء الحقول، نوع البيانات، وتعيين المفتاح الأساسي 🔑:
                         </div>
-                        <table class="db-tbl" id="designTbl">
+                        <table class="db-tbl">
                             <thead>
                                 <tr>
                                     <th style="width: 35%;">اسم الحقل (Field Name)</th>
@@ -271,9 +253,9 @@
                                     <th style="width: 30%;">الوصف والخصائص</th>
                                 </tr>
                             </thead>
-                            <tbody id="designTblBody">
+                            <tbody>
                                 <tr style="background: rgba(245, 158, 11, 0.1);">
-                                    <td><i class="fa-solid fa-key pk-key" title="المفتاح الأساسي"></i> <strong>رقم_الطالب</strong></td>
+                                    <td><i class="fa-solid fa-key pk-key"></i> <strong>رقم_الطالب</strong></td>
                                     <td><span style="color: #fbbf24; font-weight: 800;">رقم (Number)</span></td>
                                     <td>المفتاح الأساسي (لا يتكرر، مطلوب)</td>
                                 </tr>
@@ -299,71 +281,52 @@
                                 </tr>
                             </tbody>
                         </table>
-
-                        <!-- Extra Field Adder Feature -->
-                        <div class="add-field-bar">
-                            <span style="font-weight:800; font-size:0.9rem; color:#38bdf8;"><i class="fa-solid fa-plus-circle"></i> إضافة حقل جديد لبنية الجدول:</span>
-                            <input type="text" class="acc-input" id="inCustomFieldName" placeholder="مثال: رقم_الجوال">
-                            <select class="acc-input" id="inCustomFieldType">
-                                <option value="نص مختصر (Short Text)">نص مختصر (Short Text)</option>
-                                <option value="رقم (Number)">رقم (Number)</option>
-                                <option value="تاريخ / وقت (Date/Time)">تاريخ / وقت (Date/Time)</option>
-                                <option value="عملة (Currency)">عملة (Currency)</option>
-                            </select>
-                            <button class="acc-btn" onclick="addCustomField()"><i class="fa-solid fa-check"></i> إضافة الحقل</button>
-                        </div>
                     </div>
 
                     <!-- Datasheet View Panel -->
                     <div id="datasheetViewBox" style="display: none;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
-                            <div style="color: #2dd4bf; font-weight: 700;">
-                                <i class="fa-solid fa-list-check"></i> في عرض ورقة البيانات يتم إدخال واستعراض السجلات الفعلية:
-                            </div>
-                            <input type="text" class="acc-input" id="searchBox" placeholder="🔍 تصفية السجلات بالاسم أو الرقم..." oninput="filterRecords(this.value)">
+                        <div style="margin-bottom: 12px; color: #2dd4bf; font-weight: 700;">
+                            <i class="fa-solid fa-list-check"></i> في عرض ورقة البيانات يتم إدخال واستعراض السجلات الفعلية:
                         </div>
-
-                        <div style="overflow-x:auto;">
-                            <table class="db-tbl" id="studentsRecordsTable">
-                                <thead>
-                                    <tr id="recordsHeaderRow">
-                                        <th>رقم الطالب 🔑</th>
-                                        <th>اسم الطالب</th>
-                                        <th>تاريخ الميلاد</th>
-                                        <th>المدينة</th>
-                                        <th>المعدل</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recTableBody">
-                                    <tr data-id="1001" data-name="سعود محمد القحطاني">
-                                        <td><strong style="color: #fbbf24;">1001</strong></td>
-                                        <td>سعود محمد القحطاني</td>
-                                        <td>2011/04/15</td>
-                                        <td>أبها</td>
-                                        <td>98.5</td>
-                                    </tr>
-                                    <tr data-id="1002" data-name="عبدالعزيز صالح الغامدي">
-                                        <td><strong style="color: #fbbf24;">1002</strong></td>
-                                        <td>عبدالعزيز صالح الغامدي</td>
-                                        <td>2011/08/20</td>
-                                        <td>خميس مشيط</td>
-                                        <td>96.0</td>
-                                    </tr>
-                                    <tr data-id="1003" data-name="فيصل فهد الشهري">
-                                        <td><strong style="color: #fbbf24;">1003</strong></td>
-                                        <td>فيصل فهد الشهري</td>
-                                        <td>2011/01/10</td>
-                                        <td>أبها</td>
-                                        <td>99.2</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="db-tbl" id="studentsRecordsTable">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطالب 🔑</th>
+                                    <th>اسم الطالب</th>
+                                    <th>تاريخ الميلاد</th>
+                                    <th>المدينة</th>
+                                    <th>المعدل</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recTableBody">
+                                <tr>
+                                    <td><strong style="color: #fbbf24;">1001</strong></td>
+                                    <td>سعود محمد القحطاني</td>
+                                    <td>2011/04/15</td>
+                                    <td>أبها</td>
+                                    <td>98.5</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #fbbf24;">1002</strong></td>
+                                    <td>عبدالعزيز صالح الغامدي</td>
+                                    <td>2011/08/20</td>
+                                    <td>خميس مشيط</td>
+                                    <td>96.0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #fbbf24;">1003</strong></td>
+                                    <td>فيصل فهد الشهري</td>
+                                    <td>2011/01/10</td>
+                                    <td>أبها</td>
+                                    <td>99.2</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                         <!-- Add Record Form -->
                         <div class="add-record-box">
                             <div class="rec-input-group">
-                                <label>رقم الطالب (Primary Key 🔑):</label>
+                                <label>رقم الطالب (Primary Key):</label>
                                 <input type="number" class="rec-input" id="inId" placeholder="1004">
                             </div>
                             <div class="rec-input-group">
@@ -415,7 +378,7 @@
         </div>
     </section>
 
-    <!-- Section 5: Real-World Applications (The Rich Theory) -->
+    <!-- Section 5: Real-World Applications -->
     <section class="section" id="appsSec">
         <div class="container">
             <h2 class="section-title">مجالات استخدام قواعد البيانات في حياتنا</h2>
@@ -460,12 +423,12 @@
     <section class="section" id="quizSec">
         <div class="container">
             <h2 class="section-title">التحدي الشامل لدرس إنشاء قواعد البيانات</h2>
-            <p class="section-desc">10 أسئلة مهارية متنوعة (اختيار من متعدد، صح وخطأ، وإكمال فراغ) لقياس استيعابك للمفاهيم</p>
+            <p class="section-desc">10 أسئلة لقياس استيعابك لمفاهيم قواعد البيانات، Microsoft Access، والمفتاح الأساسي</p>
 
             <div class="quiz-card" id="quizBox">
                 <div class="quiz-header">
                     <div class="quiz-counter" id="quizCounter">السؤال 1 من 10</div>
-                    <div id="quizTypeBadge"><span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span></div>
+                    <div style="color: #38bdf8; font-weight: 700;"><i class="fa-solid fa-award"></i> مهارات قواعد البيانات</div>
                 </div>
                 <div class="quiz-q" id="quizQuestion">جارٍ تحميل السؤال...</div>
                 <div class="quiz-opts" id="quizOptions"></div>
@@ -489,9 +452,12 @@
     </footer>
 
     <script>
+        // Web Audio API
         var audioCtx = null;
         function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
         }
 
         function playTone(freq, duration, type) {
@@ -554,53 +520,6 @@
             }
         }
 
-        // Add Custom Field in Design View
-        function addCustomField() {
-            var name = document.getElementById('inCustomFieldName').value.trim();
-            var type = document.getElementById('inCustomFieldType').value;
-            if (!name) {
-                playSound('wrong');
-                alert('⚠️ يرجى كتابة اسم الحقل أولاً.');
-                return;
-            }
-
-            var tbody = document.getElementById('designTblBody');
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td><i class="fa-solid fa-key pk-key" style="color:#475569;" title="حقل إضافي"></i> ' + name + '</td><td><span style="color:#38bdf8;">' + type + '</span></td><td><span style="color:#10b981; font-size:0.85rem;">حقل مخصص جديد</span></td>';
-            tbody.appendChild(tr);
-
-            // Add Header to Datasheet View
-            var hRow = document.getElementById('recordsHeaderRow');
-            var th = document.createElement('th');
-            th.innerText = name;
-            hRow.appendChild(th);
-
-            // Add cell to existing rows
-            document.querySelectorAll('#recTableBody tr').forEach(function(r) {
-                var td = document.createElement('td');
-                td.innerText = '-';
-                r.appendChild(td);
-            });
-
-            playSound('correct');
-            alert('✅ تم إضافة الحقل (' + name + ') إلى بنية الجدول بنجاح!');
-            document.getElementById('inCustomFieldName').value = '';
-        }
-
-        // Search & Filter Records
-        function filterRecords(query) {
-            var q = query.trim().toLowerCase();
-            document.querySelectorAll('#recTableBody tr').forEach(function(row) {
-                var id = (row.getAttribute('data-id') || '').toLowerCase();
-                var name = (row.getAttribute('data-name') || '').toLowerCase();
-                if (id.indexOf(q) !== -1 || name.indexOf(q) !== -1) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
         // Dynamic Student Records
         var existingIds = [1001, 1002, 1003];
         function addNewStudentRecord() {
@@ -630,8 +549,6 @@
             existingIds.push(id);
             var tbody = document.getElementById('recTableBody');
             var tr = document.createElement('tr');
-            tr.setAttribute('data-id', id);
-            tr.setAttribute('data-name', name);
             tr.innerHTML = '<td><strong style="color: #fbbf24;">' + id + '</strong></td><td>' + name + '</td><td>2011/09/01</td><td>' + (city || 'أبها') + '</td><td>97.0</td>';
             tbody.appendChild(tr);
 
@@ -642,11 +559,9 @@
             document.getElementById('inCity').value = '';
         }
 
-        // Quiz Logic
-        
+        // 10 Comprehensive Randomized Quiz Questions
         var quizData = [
             {
-                type: "mcq",
                 q: "ما التعريف الدقيق لمفهوم 'قاعدة البيانات' (Database)؟",
                 opts: [
                     "مجموعة منظمة من البيانات والمعلومات المرتبطة بموضوع معين، مخزنة إلكترونياً لسهولة استرجاعها",
@@ -657,7 +572,6 @@
                 a: 0
             },
             {
-                type: "mcq",
                 q: "ما هو الاختصار الشائع لـ 'نظام إدارة قواعد البيانات' باللغة الإنجليزية؟",
                 opts: [
                     "DBMS (Database Management System)",
@@ -668,7 +582,36 @@
                 a: 0
             },
             {
-                type: "mcq",
+                q: "ماذا يمثل كل 'صف أفقي' (Row) داخل جدول قاعدة البيانات؟",
+                opts: [
+                    "سجل كامل (Record) يحتوي على كافة بيانات عنصر أو شخص محدد",
+                    "حقل مستقل (Field) يحدد نوع البيانات",
+                    "اسم الجدول الإجمالي",
+                    "مفتاحاً أجنبياً دائماً"
+                ],
+                a: 0
+            },
+            {
+                q: "ماذا يمثل كل 'عمود رأسي' (Column) داخل جدول قاعدة البيانات؟",
+                opts: [
+                    "حقل (Field) مخصص لنوع محدد من البيانات لكافة السجلات",
+                    "سجل كامل لشخص واحد",
+                    "قاعدة البيانات بأكملها",
+                    "ملف وسائط متعددة خارجي"
+                ],
+                a: 0
+            },
+            {
+                q: "ما هما الشرطان الأساسيان الواجب توفرهما في 'المفتاح الأساسي' (Primary Key)؟",
+                opts: [
+                    "أن تكون قيمته فريدة لا تتكرر، ولا يمكن تركه فارغاً (Not Null)",
+                    "أن يكون دائماً نصاً طويلاً يزيد عن 100 حرف",
+                    "أن يتغير تلقائياً كلما تم فتح البرنامج",
+                    "أن يحتوي على أرقام سالبة فقط"
+                ],
+                a: 0
+            },
+            {
                 q: "في برنامج Microsoft Access، ما هي طريقة العرض المستخدمة لتحديد بنية الجدول وأسماء الحقول وأنواع بياناتها؟",
                 opts: [
                     "طريقة عرض التصميم (Design View)",
@@ -679,57 +622,7 @@
                 a: 0
             },
             {
-                type: "mcq",
-                q: "ما الميزة الجوهرية لقواعد البيانات مقارنة بملفات الجداول الإلكترونية (مثل Excel) عند التعامل مع المؤسسات الكبرى؟",
-                opts: [
-                    "القدرة على إدارة ملايين السجلات بكفاءة وأمان مع دعم التعدد اللحظي للمستخدمين ومنع التكرار",
-                    "أنها مجانية دائماً ولا تتطلب أي تثبيت",
-                    "أنها لا تحتاج إلى مساحة تخزين على القرص الصلب",
-                    "أنها لا تسمح بوضع كلمات مرور"
-                ],
-                a: 0
-            },
-            {
-                type: "tf",
-                q: "يُسمح بتكرار نفس قيمة المفتاح الأساسي (Primary Key) لأكثر من طالب داخل نفس الجدول في Access.",
-                opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 1
-            },
-            {
-                type: "tf",
-                q: "يشترط في المفتاح الأساسي (Primary Key) ألا يُترك فارغاً (Not Null) عند إدخال أي سجل جديد.",
-                opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 0
-            },
-            {
-                type: "tf",
-                q: "تُستخدم طريقة عرض ورقة البيانات (Datasheet View) في Access لإدخال وعرض وتعديل السجلات الفعلية.",
-                opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 0
-            },
-            {
-                type: "fill",
-                q: "يمثل كل صف أفقي في جدول قاعدة البيانات [ ........ ] يحتوي على كافة معلومات شخص أو عنصر محدد.",
-                opts: [
-                    "سجلاً كاملاً (Record)",
-                    "حقلاً مستقلاً (Field)",
-                    "جدولاً فرعياً",
-                    "مفتاحاً أجنبياً"
-                ],
-                a: 0
-            },
-            {
-                type: "fill",
-                q: "نوع البيانات الأنسب في Microsoft Access لتخزين رقم هاتف الطالب أو اسمه الكامل هو [ ........ ].",
+                q: "في Microsoft Access، ما نوع البيانات المناسب لتخزين (رقم الهاتف) أو (الاسم الكامل)؟",
                 opts: [
                     "نص مختصر (Short Text)",
                     "عملة (Currency)",
@@ -739,19 +632,37 @@
                 a: 0
             },
             {
-                type: "fill",
-                q: "يُعد رقم [ ........ ] هو المثال الأمثل لاختياره كمفتاح أساسي (Primary Key) في قاعدة بيانات نظام نور.",
+                q: "ماذا يحدث عند محاولة إدخال سجل جديد بنفس قيمة المفتاح الأساسي لسجل موجود مسبقاً في Access؟",
                 opts: [
-                    "الهوية الوطنية (أو الإقامة)",
+                    "يرفض النظام الحفظ ويظهر رسالة خطأ لانتهاك قيد المفتاح الأساسي",
+                    "يتم حذف السجل القديم تلقائياً دون تنبيه",
+                    "يتم إغلاق الحاسب وإعادة تشغيله",
+                    "يتم دمج الاسمين معاً في سجل واحد"
+                ],
+                a: 0
+            },
+            {
+                q: "أي من الآتي يعتبر مثالاً مثالياً للمفتاح الأساسي (Primary Key) في جدول الطلاب؟",
+                opts: [
+                    "رقم الهوية الوطنية أو الرقم الأكاديمي للطالب",
                     "الاسم الأول للطالب",
-                    "اسم مدينة السكن",
-                    "الصف الدراسي"
+                    "اسم المدينة التي يسكن فيها الطالب",
+                    "تاريخ ميلاد الطالب"
+                ],
+                a: 0
+            },
+            {
+                q: "ما الميزة الجوهرية لقواعد البيانات مقارنة بملفات الجداول الإلكترونية (مثل Excel) عند التعامل مع المؤسسات الكبرى؟",
+                opts: [
+                    "القدرة على إدارة ملايين السجلات بكفاءة وأمان مع دعم التعدد اللحظي للمستخدمين ومنع التكرار",
+                    "أنها مجانية دائماً ولا تتطلب أي تثبيت",
+                    "أنها لا تحتاج إلى مساحة تخزين على القرص الصلب",
+                    "أنها لا تسمح بوضع كلمات مرور"
                 ],
                 a: 0
             }
         ];
 
-        
         var currentQ = 0;
         var quizScore = 0;
         var selectedOpt = -1;
@@ -760,34 +671,13 @@
         function loadQuiz() {
             var q = quizData[currentQ];
             document.getElementById('quizCounter').innerText = 'السؤال ' + (currentQ + 1) + ' من ' + quizData.length;
-            
-            var badgeBox = document.getElementById('quizTypeBadge');
-            if (q.type === 'tf') {
-                badgeBox.innerHTML = '<span class="q-badge badge-tf"><i class="fa-solid fa-scale-balanced"></i> صح أم خطأ</span>';
-            } else if (q.type === 'fill') {
-                badgeBox.innerHTML = '<span class="q-badge badge-fill"><i class="fa-solid fa-pen-to-square"></i> املأ الفراغ</span>';
-            } else {
-                badgeBox.innerHTML = '<span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span>';
-            }
-
-            if (q.type === 'fill') {
-                var formattedQ = q.q.replace('[ ........ ]', '<span class="blank-spot" id="blankSpot">..........</span>');
-                document.getElementById('quizQuestion').innerHTML = formattedQ;
-            } else {
-                document.getElementById('quizQuestion').innerText = q.q;
-            }
-
+            document.getElementById('quizQuestion').innerText = q.q;
             var optsBox = document.getElementById('quizOptions');
             optsBox.innerHTML = '';
             document.getElementById('quizNextBtn').disabled = true;
             selectedOpt = -1;
 
-            if (q.type === 'tf') {
-                optsBox.className = 'quiz-opts grid-tf';
-            } else {
-                optsBox.className = 'quiz-opts';
-            }
-
+            // Shuffle options (Fisher-Yates)
             var mapped = q.opts.map(function(opt, idx) {
                 return { text: opt, isCorrect: (idx === q.a) };
             });
@@ -801,37 +691,27 @@
             mapped.forEach(function(item, idx) {
                 if (item.isCorrect) currentCorrectIdx = idx;
                 var btn = document.createElement('button');
-                btn.className = 'quiz-opt' + (q.type === 'tf' ? ' opt-tf' : '');
+                btn.className = 'quiz-opt';
                 btn.innerText = item.text;
-                btn.onclick = function() { selectQuizOpt(idx, btn, item.text, q.type); };
+                btn.onclick = function() { selectQuizOpt(idx, btn); };
                 optsBox.appendChild(btn);
             });
         }
 
-        function selectQuizOpt(idx, btn, text, type) {
+        function selectQuizOpt(idx, btn) {
             if (selectedOpt !== -1) return;
             selectedOpt = idx;
             var allBtns = document.querySelectorAll('.quiz-opt');
             allBtns.forEach(function(b) { b.classList.add('disabled'); });
 
-            var blankEl = document.getElementById('blankSpot');
-
             if (idx === currentCorrectIdx) {
                 playSound('correct');
                 btn.classList.add('correct');
                 quizScore++;
-                if (blankEl) {
-                    blankEl.innerText = text;
-                    blankEl.className = 'blank-spot correct';
-                }
             } else {
                 playSound('wrong');
                 btn.classList.add('wrong');
                 allBtns[currentCorrectIdx].classList.add('correct');
-                if (blankEl) {
-                    blankEl.innerText = text;
-                    blankEl.className = 'blank-spot wrong';
-                }
             }
             document.getElementById('quizNextBtn').disabled = false;
         }
@@ -853,11 +733,11 @@
             document.getElementById('resultScoreText').innerText = quizScore + ' / ' + quizData.length;
             var fb = document.getElementById('resultFeedback');
             if (quizScore >= 9) {
-                fb.innerText = '🌟 أداء أسطوري ومبهر! لقد أتقنت جميع مهارات الوحدة بنسبة 100%.';
+                fb.innerText = '🌟 أداء استثنائي ومتقن 100%! أنت مهندس قواعد بيانات موهوب ومتمكن من كافة المفاهيم.';
             } else if (quizScore >= 7) {
-                fb.innerText = '👏 رائع جداً! معلوماتك ممتازة وأنت جاهز تماماً لتسليم المشروع وحل الواجب.';
+                fb.innerText = '👏 رائع جداً! استيعابك لمفاهيم الجداول والحقول والمفتاح الأساسي ممتاز.';
             } else {
-                fb.innerText = '📚 ننصحك بمراجعة محاكيات الوحدة وإعادة المحاولة لتحقيق الدرجة الكاملة!';
+                fb.innerText = '📚 ننصحك بمراجعة محاكي Access وشروط المفتاح الأساسي وإعادة التحدي!';
             }
         }
 
@@ -868,7 +748,6 @@
             document.getElementById('quizBox').style.display = 'block';
             loadQuiz();
         }
-
 
         window.onload = function() {
             loadQuiz();

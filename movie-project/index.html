@@ -44,6 +44,7 @@
 
         /* Hero */
         .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 100vh; background: radial-gradient(circle at top center, #2e1065 0%, #0f172a 70%); padding: 2rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; width: 350px; height: 350px; background: var(--secondary); filter: blur(140px); opacity: 0.2; top: 10%; right: 15%; pointer-events: none; }
         .hero .logos { display: flex; gap: 24px; align-items: center; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; z-index: 1; }
         .hero .logos img { height: 85px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); background: rgba(255,255,255,0.06); padding: 8px 14px; border-radius: 12px; }
         .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 900; background: linear-gradient(135deg, #c084fc, #f472b6, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; z-index: 1; }
@@ -137,19 +138,6 @@
         .quiz-next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .result-box { text-align: center; padding: 30px; display: none; }
         .result-score { font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg, #10b981, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; }
-
-        
-        /* Quiz Enhanced Styles */
-        .q-badge { font-size: 0.82rem; font-weight: 800; padding: 4px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
-        .badge-mcq { background: rgba(56, 189, 248, 0.15); color: #0284c7; border: 1px solid rgba(56, 189, 248, 0.3); }
-        .badge-tf { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .badge-fill { background: rgba(168, 85, 247, 0.15); color: #7c3aed; border: 1px solid rgba(168, 85, 247, 0.3); }
-        .blank-spot { color: #d97706; border-bottom: 3px dashed #d97706; padding: 2px 10px; font-weight: 900; transition: all 0.3s; display: inline-block; }
-        .blank-spot.correct { color: #065f46; border-color: #10b981; border-style: solid; background: rgba(16, 185, 129, 0.15); border-radius: 6px; }
-        .blank-spot.wrong { color: #991b1b; border-color: #ef4444; border-style: solid; background: rgba(239, 68, 68, 0.15); border-radius: 6px; }
-        .grid-tf { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .opt-tf { text-align: center !important; justify-content: center !important; font-size: 1.15rem !important; padding: 18px !important; }
-
 
         footer { text-align: center; padding: 35px 20px; background: #090d16; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; color: var(--text-light); margin-top: 40px; }
         footer strong { color: #c084fc; }
@@ -450,7 +438,7 @@
             <div class="quiz-card" id="quizBox">
                 <div class="quiz-header">
                     <div class="quiz-counter" id="quizCounter">السؤال 1 من 10</div>
-                    <div id="quizTypeBadge"><span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span></div>
+                    <div style="color: #f59e0b; font-weight: 700;"><i class="fa-solid fa-award"></i> مهارات المونتاج</div>
                 </div>
                 <div class="quiz-q" id="quizQuestion">جارٍ تحميل السؤال...</div>
                 <div class="quiz-opts" id="quizOptions"></div>
@@ -474,9 +462,12 @@
     </footer>
 
     <script>
+        // Web Audio API
         var audioCtx = null;
         function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
         }
 
         function playTone(freq, duration, type) {
@@ -685,12 +676,10 @@
             }, 60);
         }
 
-        // Quiz Logic
-        
+        // 10 Comprehensive Randomized Quiz Questions
         var quizData = [
             {
-                type: "mcq",
-                q: "ما الهدف الأساسي من مرحلة 'لوحة القصة' (Storyboard) قبل البدء في مونتاج الفيديو؟",
+                q: "ما الهدف الأساسي من مرحلة 'لوحة القصة' (Storyboard) قبل البدء في إنتاج الفيديو؟",
                 opts: [
                     "تخطيط تسلسل المشاهد المرئية وترتيب ظهور العناصر زمنياً قبل المونتاج",
                     "تسريع عملية تصدير الفيديو وتقليل حجم الملف النهائي",
@@ -700,7 +689,6 @@
                 a: 0
             },
             {
-                type: "mcq",
                 q: "في برنامج Shotcut، عند الرغبة في إظهار نص أو عنوان فوق مقطع الفيديو، أين يجب وضع مسار النص؟",
                 opts: [
                     "في مسار فيديو علوي (مثل V2) فوق مسار الفيديو الأساسي (V1)",
@@ -711,18 +699,66 @@
                 a: 0
             },
             {
-                type: "mcq",
-                q: "ما الصيغة والتنسيق القياسي الموصى به لتصدير الفيلم النهائي ليعمل بكفاءة على كافة الأجهزة والمنصات؟",
+                q: "ما وظيفة 'الإطارات المفتاحية' (Keyframes) في برامج تحرير الفيديو؟",
+                opts: [
+                    "تحديد نقاط زمنية لتغيير خصائص العنصر (كالموضع والحجم والشفافية) وصنع الحركة",
+                    "كتم الأصوات العالية تلقائياً لمنع التشويش",
+                    "دمج جميع ملفات المشروع في ملف نصي واحد",
+                    "إعادة تشغيل الفيديو عند نهايته بشكل لا نهائي"
+                ],
+                a: 0
+            },
+            {
+                q: "ما هو التأثير الناتج عن تطبيق مرشح 'تلاشي الصوت للداخل' (Fade In Audio)؟",
+                opts: [
+                    "يبدأ الصوت صامتاً ثم يرتفع تدريجياً وبنعومة حتى يصل للمستوى الطبيعي",
+                    "ينخفض الصوت تدريجياً حتى ينكتم تماماً في نهاية المشهد",
+                    "كتم الصوت فوراً طوال فترة تشغيل المقطع",
+                    "تضخيم الترددات الحادة لعزل الضوضاء الخلفية"
+                ],
+                a: 0
+            },
+            {
+                q: "ما هو التأثير الناتج عن مرشح 'تلاشي الصوت للخارج' (Fade Out Audio)؟",
+                opts: [
+                    "ينخفض مستوى الصوت تدريجياً في نهاية المقطع حتى يتلاشى بهدوء",
+                    "يبدأ الصوت من الصفر ثم يتصاعد في بداية المقطع",
+                    "تكرار المقطع الصوتي عدة مرات متتالية",
+                    "فصل الصوت البشري عن الموسيقى التصويرية"
+                ],
+                a: 0
+            },
+            {
+                q: "ما الصيغة والتنسيق القياسي الموصى به لتصدير الفيلم النهائي ليعمل على كافة الأجهزة والمنصات؟",
                 opts: [
                     "ملف MP4 بترميز H.264 عالي الدقة",
-                    "ملف صوتي WAV غير مضغوط",
+                    "ملف WAV غير مضغوط",
                     "ملف عرض تقديمي PPTX",
                     "ملف صورة متحركة GIF بدون صوت"
                 ],
                 a: 0
             },
             {
-                type: "mcq",
+                q: "كيف يتم إنشاء تأثير انتقال (Transition) بين مقطعي فيديو متجاورين على نفس المسار في Shotcut؟",
+                opts: [
+                    "سحب أحد المقطعين ليتداخل قليلاً فوق المقطع الآخر على المخطط الزمني",
+                    "الضغط على زر التصدير Export مرتين متتاليتين",
+                    "حذف المقطع الصوتي المصاحب لهما",
+                    "تقسيم الفيديو إلى 10 أجزاء متساوية"
+                ],
+                a: 0
+            },
+            {
+                q: "أي مفتاح اختصار سريع في لوحة المفاتيح يُستخدم لتقسيم المقطع (Split) عند موضع المؤشر في Shotcut؟",
+                opts: [
+                    "مفتاح الحرف (S)",
+                    "مفتاح الحرف (Delete)",
+                    "مفتاح الحرف (Z)",
+                    "مفتاح المسافة (Spacebar)"
+                ],
+                a: 0
+            },
+            {
                 q: "لماذا يُنصح بخفض مستوى موسيقى الخلفية (Background Music) أثناء حديث المعلق الصوتي؟",
                 opts: [
                     "لضمان وضوح نبرة الصوت والمعلومات للمشاهد دون تداخل مزعج",
@@ -733,68 +769,17 @@
                 a: 0
             },
             {
-                type: "tf",
-                q: "مرشح 'تلاشي الصوت للداخل' (Fade In Audio) يجعل الصوت يبدأ صامتاً ثم يرتفع تدريجياً وبنعومة في بداية المشهد.",
+                q: "ماذا يسمى المخطط الذي يحتوي على المسارات المتعددة للتحكم في زمن وتزامن الفيديو والصوت؟",
                 opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 0
-            },
-            {
-                type: "tf",
-                q: "المسار السفلي V1 في المخطط الزمني يحجب ويعلو العناصر الموجودة في المسار العلوي V2.",
-                opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 1
-            },
-            {
-                type: "tf",
-                q: "يمكن إنشاء تأثير انتقال (Transition) بين مقطعين في Shotcut بسحب أحدهما ليتداخل قليلاً فوق الآخر في نفس المسار.",
-                opts: [
-                    "✅ صح (صواب)",
-                    "❌ خطأ"
-                ],
-                a: 0
-            },
-            {
-                type: "fill",
-                q: "يُستخدم مفتاح الاختصار [ ........ ] في لوحة المفاتيح لتقسيم المشهد عند موضع رأس التشغيل في برنامج Shotcut.",
-                opts: [
-                    "الحرف (S)",
-                    "الحرف (D)",
-                    "الحرف (Z)",
-                    "مسافة (Space)"
-                ],
-                a: 0
-            },
-            {
-                type: "fill",
-                q: "تُستخدم تقنية [ ........ ] لتسجيل نقاط زمنية لتغيير موضع وحجم وشفافية العناصر وصنع الحركة.",
-                opts: [
-                    "الإطارات المفتاحية (Keyframes)",
-                    "المؤقت الزمني",
-                    "شريط التمرير",
-                    "التعتيم الثابت"
-                ],
-                a: 0
-            },
-            {
-                type: "fill",
-                q: "يُسمى مرشح خفض الصوت تدريجياً في نهاية المقطع حتى ينكتم تماماً بهدوء بمرشح [ ........ ].",
-                opts: [
-                    "تلاشي الصوت للخارج (Fade Out)",
-                    "تلاشي الصوت للداخل (Fade In)",
-                    "مضخم الصوت (Gain)",
-                    "عازل الصدى"
+                    "المخطط الزمني (Timeline)",
+                    "قائمة التاريخ (History Log)",
+                    "لوحة خصائص الملف (File Properties)",
+                    "شريط العنوان (Title Bar)"
                 ],
                 a: 0
             }
         ];
 
-        
         var currentQ = 0;
         var quizScore = 0;
         var selectedOpt = -1;
@@ -803,34 +788,13 @@
         function loadQuiz() {
             var q = quizData[currentQ];
             document.getElementById('quizCounter').innerText = 'السؤال ' + (currentQ + 1) + ' من ' + quizData.length;
-            
-            var badgeBox = document.getElementById('quizTypeBadge');
-            if (q.type === 'tf') {
-                badgeBox.innerHTML = '<span class="q-badge badge-tf"><i class="fa-solid fa-scale-balanced"></i> صح أم خطأ</span>';
-            } else if (q.type === 'fill') {
-                badgeBox.innerHTML = '<span class="q-badge badge-fill"><i class="fa-solid fa-pen-to-square"></i> املأ الفراغ</span>';
-            } else {
-                badgeBox.innerHTML = '<span class="q-badge badge-mcq"><i class="fa-solid fa-list-check"></i> اختيار من متعدد</span>';
-            }
-
-            if (q.type === 'fill') {
-                var formattedQ = q.q.replace('[ ........ ]', '<span class="blank-spot" id="blankSpot">..........</span>');
-                document.getElementById('quizQuestion').innerHTML = formattedQ;
-            } else {
-                document.getElementById('quizQuestion').innerText = q.q;
-            }
-
+            document.getElementById('quizQuestion').innerText = q.q;
             var optsBox = document.getElementById('quizOptions');
             optsBox.innerHTML = '';
             document.getElementById('quizNextBtn').disabled = true;
             selectedOpt = -1;
 
-            if (q.type === 'tf') {
-                optsBox.className = 'quiz-opts grid-tf';
-            } else {
-                optsBox.className = 'quiz-opts';
-            }
-
+            // Shuffle options (Fisher-Yates)
             var mapped = q.opts.map(function(opt, idx) {
                 return { text: opt, isCorrect: (idx === q.a) };
             });
@@ -844,37 +808,27 @@
             mapped.forEach(function(item, idx) {
                 if (item.isCorrect) currentCorrectIdx = idx;
                 var btn = document.createElement('button');
-                btn.className = 'quiz-opt' + (q.type === 'tf' ? ' opt-tf' : '');
+                btn.className = 'quiz-opt';
                 btn.innerText = item.text;
-                btn.onclick = function() { selectQuizOpt(idx, btn, item.text, q.type); };
+                btn.onclick = function() { selectQuizOpt(idx, btn); };
                 optsBox.appendChild(btn);
             });
         }
 
-        function selectQuizOpt(idx, btn, text, type) {
+        function selectQuizOpt(idx, btn) {
             if (selectedOpt !== -1) return;
             selectedOpt = idx;
             var allBtns = document.querySelectorAll('.quiz-opt');
             allBtns.forEach(function(b) { b.classList.add('disabled'); });
 
-            var blankEl = document.getElementById('blankSpot');
-
             if (idx === currentCorrectIdx) {
                 playSound('correct');
                 btn.classList.add('correct');
                 quizScore++;
-                if (blankEl) {
-                    blankEl.innerText = text;
-                    blankEl.className = 'blank-spot correct';
-                }
             } else {
                 playSound('wrong');
                 btn.classList.add('wrong');
                 allBtns[currentCorrectIdx].classList.add('correct');
-                if (blankEl) {
-                    blankEl.innerText = text;
-                    blankEl.className = 'blank-spot wrong';
-                }
             }
             document.getElementById('quizNextBtn').disabled = false;
         }
@@ -896,11 +850,11 @@
             document.getElementById('resultScoreText').innerText = quizScore + ' / ' + quizData.length;
             var fb = document.getElementById('resultFeedback');
             if (quizScore >= 9) {
-                fb.innerText = '🌟 أداء أسطوري ومبهر! لقد أتقنت جميع مهارات الوحدة بنسبة 100%.';
+                fb.innerText = '🌟 إبداع استثنائي ومتقن! لقد أصبحت مخرجاً رقمياً محترفاً وقادراً على إنتاج مقاطع فيديو سينمائية.';
             } else if (quizScore >= 7) {
-                fb.innerText = '👏 رائع جداً! معلوماتك ممتازة وأنت جاهز تماماً لتسليم المشروع وحل الواجب.';
+                fb.innerText = '👏 رائع جداً! استيعابك لأدوات المونتاج في Shotcut ممتاز وجاهز للتطبيق العملي.';
             } else {
-                fb.innerText = '📚 ننصحك بمراجعة محاكيات الوحدة وإعادة المحاولة لتحقيق الدرجة الكاملة!';
+                fb.innerText = '📚 ننصحك بمراجعة محاكيات المخطط الزمني والإطارات المفتاحية وإعادة التحدي!';
             }
         }
 
@@ -911,7 +865,6 @@
             document.getElementById('quizBox').style.display = 'block';
             loadQuiz();
         }
-
 
         window.onload = function() {
             loadQuiz();
