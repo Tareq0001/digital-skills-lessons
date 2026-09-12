@@ -159,6 +159,10 @@
 
         footer { text-align: center; padding: 35px 20px; background: #090d16; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; color: var(--text-light); margin-top: 40px; }
         footer strong { color: #c084fc; }
+    
+        @keyframes recBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        .studio-screen { min-height: 280px !important; }
+
     </style>
 </head>
 <body>
@@ -237,13 +241,33 @@
                     </div>
                 </div>
 
-                <div class="studio-screen">
-                    <div style="text-align: center;" id="screenPreviewBox">
-                        <i class="fa-solid fa-video" style="font-size: 4rem; color: #475569; margin-bottom: 10px;"></i>
-                        <div style="color: #94a3b8; font-weight: 700;">المشهد النشط: <span id="activeClipName" style="color: #38bdf8;">المشهد الافتتاحي</span></div>
+                <div class="studio-screen" id="studioScreen">
+                    <!-- Background Scene Image for Region -->
+                    <img id="sceneBgImg" src="assets/scene_asir.jpg" alt="المشهد المعروض" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.88; transition: opacity 0.35s ease, transform 0.5s ease; z-index: 1;">
+                    
+                    <!-- Cinematic Vignette Overlay -->
+                    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.75) 100%); z-index: 2; pointer-events: none;"></div>
+
+                    <!-- Viewfinder & Timecode HUD -->
+                    <div style="position: absolute; top: 12px; right: 15px; z-index: 3; display: flex; align-items: center; gap: 8px; font-family: monospace; font-size: 0.85rem; color: #f8fafc; background: rgba(0,0,0,0.65); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">
+                        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 8px #ef4444; animation: recBlink 1.2s infinite;"></span>
+                        <span>REC 4K</span>
                     </div>
-                    <div class="screen-overlay-text" id="screenOverlayText">مشروع معالم المملكة</div>
-                    <div class="screen-controls">
+
+                    <div style="position: absolute; top: 12px; left: 15px; z-index: 3; font-family: monospace; font-size: 0.85rem; color: #38bdf8; background: rgba(0,0,0,0.65); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">
+                        <i class="fa-solid fa-layer-group"></i> <span id="activeTrackInfo">مسار V1: فيديو (عسير)</span>
+                    </div>
+
+                    <!-- Center Titles -->
+                    <div style="text-align: center; z-index: 3; position: relative; padding: 20px;" id="screenPreviewBox">
+                        <div class="screen-overlay-text" id="screenOverlayText" style="position: relative; font-size: clamp(1.4rem, 3.5vw, 2.2rem); font-weight: 900; color: #ffffff; text-shadow: 0 4px 18px rgba(0,0,0,0.95); margin-bottom: 8px;">طبيعة عسير الخلابة</div>
+                        <div style="color: #cbd5e1; font-weight: 700; font-size: 0.95rem; text-shadow: 0 2px 8px rgba(0,0,0,0.9); background: rgba(0,0,0,0.55); display: inline-block; padding: 4px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);">
+                            المشهد النشط: <span id="activeClipName" style="color: #38bdf8; font-weight: 800;">المشهد 1: عسير</span>
+                        </div>
+                    </div>
+
+                    <!-- Video Controls Bar -->
+                    <div class="screen-controls" style="z-index: 4;">
                         <button class="play-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
                         <div class="time-display" id="timeDisplay">00:00:03 / 00:00:15</div>
                     </div>
@@ -256,8 +280,8 @@
                     <div class="track-row">
                         <div class="track-label label-v">مسار V2 (نصوص)</div>
                         <div class="track-blocks">
-                            <div class="t-clip clip-t" onclick="selectClip('عنوان الفيلم', 'مشروع معالم المملكة', this)"><i class="fa-solid fa-font"></i> عنوان الفيلم</div>
-                            <div class="t-clip clip-t" onclick="selectClip('شعار المشروع', '🇸🇦 فخر واعتزاز', this)"><i class="fa-solid fa-tag"></i> شعار المشروع</div>
+                            <div class="t-clip clip-t" onclick="selectTextClip('عنوان الفيلم', 'مشروع معالم المملكة', this)"><i class="fa-solid fa-font"></i> عنوان الفيلم</div>
+                            <div class="t-clip clip-t" onclick="selectTextClip('شعار المشروع', '🇸🇦 فخر واعتزاز', this)"><i class="fa-solid fa-tag"></i> شعار المشروع</div>
                         </div>
                     </div>
 
@@ -265,9 +289,9 @@
                     <div class="track-row">
                         <div class="track-label label-v">مسار V1 (فيديو)</div>
                         <div class="track-blocks">
-                            <div class="t-clip clip-v active" onclick="selectClip('المشهد الافتتاحي', 'طبيعة عسير الخلابة', this)"><i class="fa-solid fa-image"></i> المشهد 1: عسير</div>
-                            <div class="t-clip clip-v" onclick="selectClip('المشهد الثاني', 'أبراج مدينة الرياض', this)"><i class="fa-solid fa-image"></i> المشهد 2: الرياض</div>
-                            <div class="t-clip clip-v" onclick="selectClip('المشهد الختامي', 'واجهة جدة البحرية', this)"><i class="fa-solid fa-image"></i> المشهد 3: جدة</div>
+                            <div class="t-clip clip-v active" id="clipAsir" onclick="selectRegionClip('عسير', 'المشهد 1: عسير', 'طبيعة عسير الخلابة', 'assets/scene_asir.jpg', this)"><i class="fa-solid fa-image"></i> المشهد 1: عسير</div>
+                            <div class="t-clip clip-v" id="clipRiyadh" onclick="selectRegionClip('الرياض', 'المشهد 2: الرياض', 'أبراج مدينة الرياض', 'assets/scene_riyadh.jpg', this)"><i class="fa-solid fa-image"></i> المشهد 2: الرياض</div>
+                            <div class="t-clip clip-v" id="clipJeddah" onclick="selectRegionClip('جدة', 'المشهد 3: جدة', 'واجهة جدة البحرية', 'assets/scene_jeddah.jpg', this)"><i class="fa-solid fa-image"></i> المشهد 3: جدة</div>
                         </div>
                     </div>
 
@@ -275,8 +299,8 @@
                     <div class="track-row">
                         <div class="track-label label-a">مسار A1 (صوت)</div>
                         <div class="track-blocks">
-                            <div class="t-clip clip-a" onclick="selectClip('موسيقى الخلفية الهادئة', '🎵 صوت محيطي هادئ', this)"><i class="fa-solid fa-music"></i> موسيقى الخلفية (MP3)</div>
-                            <div class="t-clip clip-a" onclick="selectClip('التعليق الصوتي', '🎙️ شرح وثائقي للمعالم', this)"><i class="fa-solid fa-microphone"></i> التعليق الصوتي (WAV)</div>
+                            <div class="t-clip clip-a" onclick="selectAudioClip('موسيقى الخلفية (MP3)', '🎵 صوت محيطي هادئ', this)"><i class="fa-solid fa-music"></i> موسيقى الخلفية (MP3)</div>
+                            <div class="t-clip clip-a" onclick="selectAudioClip('التعليق الصوتي (WAV)', '🎙️ شرح وثائقي للمعالم', this)"><i class="fa-solid fa-microphone"></i> التعليق الصوتي (WAV)</div>
                         </div>
                     </div>
                 </div>
@@ -582,6 +606,17 @@
                     playSec = Math.floor((playheadPos - 18) / 20);
                     var s = playSec < 10 ? '0' + playSec : playSec;
                     document.getElementById('timeDisplay').innerText = '00:00:' + s + ' / 00:00:15';
+
+                    // Synchronize scene image based on playhead position
+                    var sIdx = Math.floor(playSec / 5);
+                    if (sIdx > 2) sIdx = 2;
+                    var cScene = scenes[sIdx];
+                    if (cScene) {
+                        setScreenScene(cScene.name, cScene.clip, cScene.title, cScene.img);
+                        document.querySelectorAll('.clip-v').forEach(function(c) { c.classList.remove('active'); });
+                        var aBtn = document.getElementById(cScene.id);
+                        if (aBtn) aBtn.classList.add('active');
+                    }
                 }, 100);
             } else {
                 icon.className = 'fa-solid fa-play';
@@ -589,12 +624,72 @@
             }
         }
 
-        function selectClip(name, overlayText, el) {
+        var scenes = [
+            { id: 'clipAsir', name: 'عسير', clip: 'المشهد 1: عسير', title: 'طبيعة عسير الخلابة', img: 'assets/scene_asir.jpg' },
+            { id: 'clipRiyadh', name: 'الرياض', clip: 'المشهد 2: الرياض', title: 'أبراج مدينة الرياض', img: 'assets/scene_riyadh.jpg' },
+            { id: 'clipJeddah', name: 'جدة', clip: 'المشهد 3: جدة', title: 'واجهة جدة البحرية', img: 'assets/scene_jeddah.jpg' }
+        ];
+
+        function setScreenScene(region, clipName, overlayTitle, imgUrl) {
+            var imgEl = document.getElementById('sceneBgImg');
+            if (imgEl && imgEl.src.indexOf(imgUrl) === -1) {
+                imgEl.style.opacity = '0';
+                imgEl.style.transform = 'scale(1.04)';
+                setTimeout(function() {
+                    imgEl.src = imgUrl;
+                    imgEl.style.opacity = '0.88';
+                    imgEl.style.transform = 'scale(1)';
+                }, 160);
+            }
+            var actEl = document.getElementById('activeClipName');
+            if (actEl) actEl.innerText = clipName;
+            var txtEl = document.getElementById('screenOverlayText');
+            if (txtEl) txtEl.innerText = overlayTitle;
+            var trkEl = document.getElementById('activeTrackInfo');
+            if (trkEl) trkEl.innerText = 'مسار V1: فيديو (' + region + ')';
+        }
+
+        function selectRegionClip(region, clipName, overlayTitle, imgUrl, el) {
             playSound('click');
             document.querySelectorAll('.t-clip').forEach(function(c) { c.classList.remove('active'); });
-            el.classList.add('active');
-            document.getElementById('activeClipName').innerText = name;
-            document.getElementById('screenOverlayText').innerText = overlayText;
+            if (el) el.classList.add('active');
+            setScreenScene(region, clipName, overlayTitle, imgUrl);
+        }
+
+        function selectTextClip(clipName, textContent, el) {
+            playSound('click');
+            document.querySelectorAll('.t-clip').forEach(function(c) { c.classList.remove('active'); });
+            if (el) el.classList.add('active');
+            var actEl = document.getElementById('activeClipName');
+            if (actEl) actEl.innerText = clipName;
+            var txtEl = document.getElementById('screenOverlayText');
+            if (txtEl) txtEl.innerText = textContent;
+            var trkEl = document.getElementById('activeTrackInfo');
+            if (trkEl) trkEl.innerText = 'مسار V2: نص علوي';
+        }
+
+        function selectAudioClip(clipName, audioDesc, el) {
+            playSound('click');
+            document.querySelectorAll('.t-clip').forEach(function(c) { c.classList.remove('active'); });
+            if (el) el.classList.add('active');
+            var actEl = document.getElementById('activeClipName');
+            if (actEl) actEl.innerText = clipName;
+            var txtEl = document.getElementById('screenOverlayText');
+            if (txtEl) txtEl.innerText = audioDesc;
+            var trkEl = document.getElementById('activeTrackInfo');
+            if (trkEl) trkEl.innerText = 'مسار A1: صوت';
+        }
+
+        function selectClip(name, overlayText, el) {
+            if (name.indexOf('عسير') !== -1 || overlayText.indexOf('عسير') !== -1) {
+                selectRegionClip('عسير', 'المشهد 1: عسير', 'طبيعة عسير الخلابة', 'assets/scene_asir.jpg', el);
+            } else if (name.indexOf('الرياض') !== -1 || overlayText.indexOf('الرياض') !== -1) {
+                selectRegionClip('الرياض', 'المشهد 2: الرياض', 'أبراج مدينة الرياض', 'assets/scene_riyadh.jpg', el);
+            } else if (name.indexOf('جدة') !== -1 || overlayText.indexOf('جدة') !== -1) {
+                selectRegionClip('جدة', 'المشهد 3: جدة', 'واجهة جدة البحرية', 'assets/scene_jeddah.jpg', el);
+            } else {
+                selectTextClip(name, overlayText, el);
+            }
         }
 
         function splitSelectedClip() {
