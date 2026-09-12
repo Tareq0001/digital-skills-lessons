@@ -18,7 +18,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Tajawal', sans-serif;
-            background: var(--bg);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.92) 100%),
+                        url('assets/bg_abha_tech.jpg') center center / cover no-repeat fixed;
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -132,8 +133,10 @@
         }
         
         .lesson-card {
-            background: var(--card-bg);
-            border: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.74);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 20px;
             padding: 28px 22px;
             text-align: right;
@@ -145,6 +148,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: inherit;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
         }
         .lesson-card::before {
             content: '';
@@ -254,7 +258,7 @@
         <!-- Hero Titles -->
         <h1 class="hero-title">بوابة المهارات الرقمية التفاعلية</h1>
         <p class="hero-subtitle">متوسطة أبها الأهلية (بنين) • شركة مواهب التربية للتعليم</p>
-        <div class="hero-badge">إشراف المعلم: أ. طارق ابوعشي</div>
+        <div class="hero-badge"><i class="fa-solid fa-mountain-sun"></i> عسير الخضراء • متوسطة أبها الأهلية • مهارات المستقبل • إشراف المعلم: أ. طارق ابوعشي</div>
 
         <!-- Week Navigation Tabs -->
         <div class="week-tabs">
@@ -275,11 +279,13 @@
                             <span class="card-icon" style="color: #38bdf8;"><i class="fa-solid fa-diagram-project"></i></span>
                         </div>
                         <h2 class="lesson-name">مشروع الوحدة الأولى: تعلم الأساسيات</h2>
-                        <p class="lesson-desc">مراجعة شاملة لأساسيات الحاسب، مقارنة وتثبيت أنظمة التشغيل، مدير المهام Task Manager، وإظهار الملفات المخفية.</p>
+                        <p class="lesson-desc">دليل إنجاز المشروع، بطاقة التقييم (Rubric)، مخطط دورة معالجة البيانات، شجرة المسارات، ومحاكي مدير المهام والملفات المخفية.</p>
                         <div class="features-list">
-                            <span class="feature-pill">🖥️ محاكي Task Manager</span>
+                            <span class="feature-pill">⚡ دورة المعالجة</span>
+                            <span class="feature-pill">🌳 شجرة المسارات</span>
+                            <span class="feature-pill">🖥️ Task Manager</span>
                             <span class="feature-pill">🔍 الملفات المخفية</span>
-                            <span class="feature-pill">🏆 تحدي شامل</span>
+                            <span class="feature-pill">🏆 بطاقة التقييم</span>
                         </div>
                     </div>
                     <button class="card-btn btn-1">دخول المشروع <i class="fa-solid fa-arrow-left"></i></button>
@@ -293,10 +299,11 @@
                             <span class="card-icon" style="color: #c084fc;"><i class="fa-solid fa-film"></i></span>
                         </div>
                         <h2 class="lesson-name">مشروع إنتاج مقطع فيديو متكامل</h2>
-                        <p class="lesson-desc">إنتاج فيلم وثائقي احترافي ببرنامج Shotcut، المخطط الزمني، تحريك النصوص بـ Keyframes، وفلاتر الصوت والتصدير.</p>
+                        <p class="lesson-desc">مراحل الإنتاج والسيناريو، مخطط تراكب الطبقات والمسارات، مخطط منحنى Keyframes، استوديو المونتاج وتصدير MP4.</p>
                         <div class="features-list">
+                            <span class="feature-pill">📐 تراكب الطبقات</span>
+                            <span class="feature-pill">📈 منحنى Keyframes</span>
                             <span class="feature-pill">🎬 استوديو Shotcut</span>
-                            <span class="feature-pill">⏱️ إطارات مفتاحية</span>
                             <span class="feature-pill">🚀 تصدير MP4</span>
                         </div>
                     </div>
@@ -311,11 +318,12 @@
                             <span class="card-icon" style="color: #34d399;"><i class="fa-solid fa-database"></i></span>
                         </div>
                         <h2 class="lesson-name">إنشاء قواعد البيانات (MS Access)</h2>
-                        <p class="lesson-desc">مفهوم قواعد البيانات ونظم DBMS، هيكل الجداول والسجلات، أنواع البيانات، وتعيين المفتاح الأساسي Primary Key.</p>
+                        <p class="lesson-desc">مفهوم DBMS وتطبيقاته، مخطط العلاقات التفاعلي (1:∞)، الهرم البنائي للبيانات، ومحاكي Microsoft Access الشامل.</p>
                         <div class="features-list">
+                            <span class="feature-pill">🔗 مخطط العلاقات 1:∞</span>
+                            <span class="feature-pill">🏛️ الهرم البنائي</span>
                             <span class="feature-pill">📊 محاكي Access</span>
                             <span class="feature-pill">🔑 المفتاح الأساسي</span>
-                            <span class="feature-pill">📋 سجلات الطلاب</span>
                         </div>
                     </div>
                     <button class="card-btn btn-3">دخول الدرس <i class="fa-solid fa-arrow-left"></i></button>
